@@ -17,6 +17,5 @@ public interface MedicalBranchFacade {
 
     MedicalBranchDTO findByLocaleAndNumberAndStreet(String locale, String streetNumber, String street);
 
-    //List<MedicalBranch> findMedicalBranchBySpecializationAndProfessional(Specialization specialization, Professional professional)
     List<MedicalBranchDTO> findMedicalBranchBySpecializationAndProfessional(Long specializationId, Long professionalId);
 }

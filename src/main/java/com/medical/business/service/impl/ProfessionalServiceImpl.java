@@ -29,9 +29,26 @@ public class ProfessionalServiceImpl implements ProfessionalService {
 
 
     @Override
-    public Professional getProfessionalById(Long id) {
-        return professionalRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("No existe el Professional con ID " + id));
+    public Professional getProfessionalById(Long specializationId) {
+        return professionalRepository.findById(specializationId)
+                .orElseThrow(() -> new NoSuchElementException("No existe el Professional con ID " + specializationId));
+    }
+
+    @Override
+    public Professional createProfessional(Professional professional) {
+        return professionalRepository.save(professional);
+    }
+
+    @Override
+    public Professional updateProfessional(Professional professional) {
+        getProfessionalById(professional.getId());
+        return professionalRepository.save(professional);
+    }
+
+    @Override
+    public void deleteProfessional(Long specializationId) throws Exception {
+        getProfessionalById(specializationId);
+        professionalRepository.deleteById(specializationId);
     }
 
     @Override

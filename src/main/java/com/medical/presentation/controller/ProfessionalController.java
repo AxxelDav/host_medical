@@ -2,6 +2,7 @@ package com.medical.presentation.controller;
 
 import com.medical.business.facade.ProfessionalFacade;
 import com.medical.domain.dto.ProfessionalDTO;
+import com.medical.domain.dto.request.ProfessionalRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,26 @@ public class ProfessionalController {
         ProfessionalDTO professional = professionalFacade.getProfessionalById(professionalId);
         return new ResponseEntity<>(professional, HttpStatus.OK);
     }
+
+
+    @PostMapping
+    public ResponseEntity<ProfessionalDTO> createProfessional(@RequestBody ProfessionalRequest request) {
+        ProfessionalDTO professional = professionalFacade.createProfessional(request);
+        return new ResponseEntity<>(professional, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<ProfessionalDTO> updateProfessional(@RequestBody ProfessionalRequest request) {
+        ProfessionalDTO professional = professionalFacade.updateProfessional(request);
+        return new ResponseEntity<>(professional, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{professionalId}")
+    public ResponseEntity<String> deleteProfessional(@PathVariable Long professionalId) throws Exception {
+        professionalFacade.deleteProfessional(professionalId);
+        return new ResponseEntity<>("Professional con ID: " + professionalId +  " eliminado con éxito", HttpStatus.NO_CONTENT);
+    }
+
 
     @GetMapping("/{workingShiftId}")
     public ResponseEntity<List<ProfessionalDTO>> getAllProfesionalByWorkShiftId(@PathVariable Long workingShiftId) {
@@ -49,20 +70,20 @@ public class ProfessionalController {
     }
 
     @PutMapping("/time-consultation/{professionalId}/{timeConsultationId}")
-    public ResponseEntity<String> updateTimeConsultation(@PathVariable Long professionalId, @PathVariable Long timeConsultationId) { //TIENE SENTIDO??
+    public ResponseEntity<String> updateTimeConsultation(@PathVariable Long professionalId, @PathVariable Long timeConsultationId) {
         professionalFacade.updateTimeConsultation(professionalId, timeConsultationId);
         return new ResponseEntity<>("TimeConsultation updated with success", HttpStatus.OK);
     }
 
     @PutMapping("/specialization/{professionalId}/{timeConsultationId}")
-    public ResponseEntity<String> updateSpecialization(@PathVariable Long professionalId, @PathVariable Long timeConsultationId) { //TIENE SENTIDO??
+    public ResponseEntity<String> updateSpecialization(@PathVariable Long professionalId, @PathVariable Long timeConsultationId) {
         professionalFacade.updateSpecialization(professionalId, timeConsultationId);
         return new ResponseEntity<>("Specialization updated with success", HttpStatus.OK);
     }
 
 
     @PostMapping("/{professionalId}/{registrationProfessionalDate}")
-    public ResponseEntity<String> createSchedulesForProfessional(@PathVariable Long professionalId, @PathVariable String registrationProfessionalDate) { //Se podria pasar directamente el objeto Professional, y dentro del metodo desempaquetar la informacion que necesites (pensa si te conviene)
+    public ResponseEntity<String> createSchedulesForProfessional(@PathVariable Long professionalId, @PathVariable String registrationProfessionalDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime dateTime = LocalDateTime.parse(registrationProfessionalDate, formatter);
         professionalFacade.createSchedulesForProfessional(professionalId, dateTime);

@@ -7,9 +7,13 @@ import java.util.List;
 
 public interface ProfessionalService {
 
-    //TODO hacer un CRUD de Professional
-
     Professional getProfessionalById(Long id);
+
+    Professional createProfessional(Professional professional);
+
+    Professional updateProfessional(Professional professional);
+
+    void deleteProfessional(Long specializationId) throws Exception;
 
     List<Professional> getAllProfessionalByWorkShiftId(Long specializationId);
 
@@ -19,9 +23,9 @@ public interface ProfessionalService {
 
     List<Professional> getAllProfessionalIdByWorkingdayId(Long workingDayId);
 
-    void updateTimeConsultation(Long professionalId, Long timeConsultationId); //TIENE SENTIDO??
+    void updateTimeConsultation(Long professionalId, Long timeConsultationId);
 
-    void updateSpecialization(Long professionalId, Long timeConsultationId); //TIENE SENTIDO??
+    void updateSpecialization(Long professionalId, Long timeConsultationId);
 
-    public void createSchedulesForProfessional(Long professionalId, LocalDateTime registrationProfessionalDate); //Se podria pasar directamente el objeto Professional, y dentro del metodo desempaquetar la informacion que necesites (pensa si te conviene)
+    public void createSchedulesForProfessional(Long professionalId, LocalDateTime registrationProfessionalDate);
 }

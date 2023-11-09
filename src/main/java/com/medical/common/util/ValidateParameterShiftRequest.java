@@ -3,7 +3,10 @@ package com.medical.common.util;
 import com.medical.business.service.MedicalBranchService;
 import com.medical.business.service.SpecializationService;
 import com.medical.business.service.WorkingDayService;
+import com.medical.domain.model.WorkingDay;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ValidateParameterShiftRequest {
@@ -18,7 +21,7 @@ public class ValidateParameterShiftRequest {
         this.medicalBranchService = medicalBranchService;
     }
 
-    public void validate(String specialization, String month, String locale, String streetNumber, String street, String workingDay, String dayshift) throws Exception {
+    public void validate(String specialization, String month, String locale, String streetNumber, String street, List<WorkingDay> workingDays, String dayshift) throws Exception {
 
         if (specializationService.findSpecializationByDescripcion(specialization) == null) {
             throw new Exception("Especialidad no válida. Debe ser una de las especialidades médicas disponibles.");
@@ -32,8 +35,8 @@ public class ValidateParameterShiftRequest {
             throw new Exception("Sucursal ingresada no válida.");
         }
 
-        if (!isValidateWorkingDay(workingDay)) {
-            throw new Exception("Día ingresado no válido.");
+        if (!isValidateWorkingDay(workingDays)) {
+            throw new Exception("Día/s ingresado no válido.");
         }
 
         if (!isValidateDayshift(dayshift)) {
@@ -41,8 +44,6 @@ public class ValidateParameterShiftRequest {
         }
 
     }
-
-
 
 
     public Boolean isValidateMonth(String month) {
@@ -55,9 +56,11 @@ public class ValidateParameterShiftRequest {
     }
 
 
-    public Boolean isValidateWorkingDay(String workingDay) {
+    public Boolean isValidateWorkingDay(List<WorkingDay> workingDays) {
         try {
-            WorkingDay.valueOf(workingDay);
+            for (WorkingDay workingDay : workingDays) {
+                WorkDay.valueOf(workingDay.getDay());
+            }
             return true;
         } catch (Exception e) {
             return false;

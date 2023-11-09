@@ -37,7 +37,7 @@ public class MedicalBranchController {
     @PutMapping
     public ResponseEntity<MedicalBranchDTO> updateMedicalBranch(@RequestBody MedicalBranchRequest request) throws Exception {
         MedicalBranchDTO medicalBranchUpdated = medicalBranchFacade.updateMedicalBranch(request);
-        return new ResponseEntity<>(medicalBranchUpdated, HttpStatus.CREATED);
+        return new ResponseEntity<>(medicalBranchUpdated, HttpStatus.OK);
     }
 
 
@@ -48,18 +48,12 @@ public class MedicalBranchController {
     }
 
     @GetMapping("/{locale}/{streetNumber}/{street}")
-    public ResponseEntity<MedicalBranchDTO> findByLocaleAndNumberAndStreet(@PathVariable String locale, @PathVariable String streetNumber, @PathVariable String street) throws Exception {  //podria pasarse como parametro un DTO que contenga esos atributos
+    public ResponseEntity<MedicalBranchDTO> findByLocaleAndNumberAndStreet(@PathVariable String locale, @PathVariable String streetNumber, @PathVariable String street) throws Exception {
         MedicalBranchDTO medicalBranch = medicalBranchFacade.findByLocaleAndNumberAndStreet(locale, streetNumber, street);
         return new ResponseEntity<>(medicalBranch, HttpStatus.OK);
     }
 
-    /*
-    @GetMapping("/specialization-and-professional")  ///esta mal que a un get le pases RequestBody?? chequear bien este endpoint. O crear un DTO fijate que es lo correcto para hacer
-    public ResponseEntity<?> findMedicalBranchBySpecializationAndProfessional(@RequestBody Specialization specialization, @RequestBody Professional professional) throws Exception {
-        List<MedicalBranch> medicalBranches = medicalBranchService.findMedicalBranchBySpecializationAndProfessional(specialization, professional);
-        return new ResponseEntity<>(medicalBranches, HttpStatus.OK);
-    } */
-    @GetMapping("/{specializationId}/{professionalId}")  ///esta mal que a un get le pases RequestBody?? chequear bien este endpoint. O crear un DTO fijate que es lo correcto para hacer
+    @GetMapping("/{specializationId}/{professionalId}")
     public ResponseEntity<List<MedicalBranchDTO>> findMedicalBranchBySpecializationAndProfessional(@PathVariable Long specializationId, @PathVariable Long professionalId) throws Exception {
         List<MedicalBranchDTO> medicalBranches = medicalBranchFacade.findMedicalBranchBySpecializationAndProfessional(specializationId, professionalId);
         return new ResponseEntity<>(medicalBranches, HttpStatus.OK);

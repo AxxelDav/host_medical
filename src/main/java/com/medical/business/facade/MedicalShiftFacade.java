@@ -21,6 +21,6 @@ public interface MedicalShiftFacade {
 
     List<SpecializationDTO> findAllSpecializationByModality(ModalityRequest request);
 
-    public List<MedicalShiftDTO> requestMedicalShift(SpecializationRequest specializationRequest, ProfessionalRequest professionalRequest, MedicalBranchRequest medicalBranchRequest, WorkingMonthRequest workingMonthRequest, List<WorkingDayRequest> workingDayRequests, WorkingShiftRequest workingShiftRequest);
+    public List<MedicalShiftDTO> requestMedicalShift(SpecializationRequest specializationRequest, ProfessionalRequest professionalRequest, MedicalBranchRequest medicalBranchRequest, WorkingMonthRequest workingMonthRequest, List<WorkingDayRequest> workingDayRequests, WorkingShiftRequest workingShiftRequest) throws Exception;
 
 }

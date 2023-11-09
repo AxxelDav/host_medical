@@ -1,9 +1,15 @@
 package com.medical.business.service;
 
+import com.medical.domain.model.User;
+
 public interface UserService {
 
-    //TODO CRUD DE USER
+    User getUserById(Long UserId) throws Exception;
 
-    public void ShiftRequest(String specialization, String month, String locale, String streetNumber, String street, String workingDay, String dayshift) throws Exception;
+    User createUser(User user);
+
+    User updateUser(User user) throws Exception;
+
+    void deleteUser(Long UserId) throws Exception;
 
 }

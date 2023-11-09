@@ -20,46 +20,32 @@ public class MedicalShiftFacadeImpl implements MedicalShiftFacade {
 
     @Autowired
     private MedicalShiftService medicalShiftService;
-
     @Autowired
     private MedicalShiftDtoMapper medicalBranchDtoMapper;
-
     @Autowired
     private MedicalShiftRequestMapper medicalShiftRequestMapper;
-
     @Autowired
     private ProfessionalService professionalService;
-
     @Autowired
     private ProfessionalRequestMapper professionalRequestMapper;
-
     @Autowired
     private UserRequestMapper userRequestMapper;
-
     @Autowired
     private SpecializationRequestMapper specializationRequestMapper;
-
     @Autowired
     private SpecializationDtoMapper specializationDtoMapper;
-
     @Autowired
     private SpecializationService specializationService;
-
     @Autowired
     private MedicalShiftDtoMapper medicalShiftDtoMapper;
-
     @Autowired
     private ModalityRequestMapper modalityRequestMapper;
-
     @Autowired
     private MedicalBranchRequestMapper medicalBranchRequestMapper;
-
     @Autowired
     private WorkingMonthRequestMapper workingMonthRequestMapper;
-
     @Autowired
     private WorkingDayRequestMapper workingDayRequestsMapper;
-
     @Autowired
     private WorkingShiftRequestMapper workingShiftRequestMapper;
 
@@ -107,7 +93,7 @@ public class MedicalShiftFacadeImpl implements MedicalShiftFacade {
                                                      MedicalBranchRequest medicalBranchRequest,
                                                      WorkingMonthRequest workingMonthRequest,
                                                      List<WorkingDayRequest> workingDayRequests,
-                                                     WorkingShiftRequest workingShiftRequest) {
+                                                     WorkingShiftRequest workingShiftRequest) throws Exception {
 
         Specialization specialization = specializationRequestMapper.toDomain(specializationRequest);
         Professional professional = professionalRequestMapper.toDomain(professionalRequest);

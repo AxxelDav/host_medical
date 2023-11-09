@@ -5,6 +5,7 @@ import com.medical.business.mapper.ProfessionalDtoMapper;
 import com.medical.business.mapper.ProfessionalRequestMapper;
 import com.medical.business.service.ProfessionalService;
 import com.medical.domain.dto.ProfessionalDTO;
+import com.medical.domain.dto.request.ProfessionalRequest;
 import com.medical.domain.model.Professional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,26 @@ public class ProfessionalFacadeImpl implements ProfessionalFacade {
         Professional professional = professionalService.getProfessionalById(id);
         return professionalDtoMapper.toDto(professional);
     }
+
+    @Override
+    public ProfessionalDTO createProfessional(ProfessionalRequest request) {
+        Professional professionalToBeCreated = professionalRequestMapper.toDomain(request);
+        Professional professionalCreated = professionalService.createProfessional(professionalToBeCreated);
+        return professionalDtoMapper.toDto(professionalCreated);
+    }
+
+    @Override
+    public ProfessionalDTO updateProfessional(ProfessionalRequest request) {
+        Professional professionalToBeUpdated = professionalRequestMapper.toDomain(request);
+        Professional professionalUpdated = professionalService.createProfessional(professionalToBeUpdated);
+        return professionalDtoMapper.toDto(professionalUpdated);
+    }
+
+    @Override
+    public void deleteProfessional(Long specializationId) throws Exception {
+
+    }
+
 
     @Override
     public List<ProfessionalDTO> getAllProfesionalByWorkShiftId(Long workingShiftId) {

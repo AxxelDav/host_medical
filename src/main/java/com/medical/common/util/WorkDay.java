@@ -1,6 +1,6 @@
 package com.medical.common.util;
 
-public enum WorkingDay {
+public enum WorkDay {
     LUNES("lunes"),
     MARTES("martes"),
     MIERCOLES("miércoles"),
@@ -11,7 +11,7 @@ public enum WorkingDay {
 
     private String value;
 
-    WorkingDay(String value) {
+    WorkDay(String value) {
         this.value = value;
     }
 

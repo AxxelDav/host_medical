@@ -44,10 +44,6 @@ public class MedicalBranchServiceImpl implements MedicalBranchService {
     }
 
     @Override
-//    public List<MedicalBranch> findMedicalBranchBySpecializationAndProfessional(Specialization specialization, Professional professional) {
-//        Long specializationId = specialization.getId();
-//        Long professionalId = professional != null ? professional.getId() : null;
-//        return medicalBranchRepository.findMedicalBranchBySpecializationAndProfessional(specializationId, professionalId);
     public List<MedicalBranch> findMedicalBranchBySpecializationAndProfessional(Long specializationId, Long professionalId) {
         return medicalBranchRepository.findMedicalBranchBySpecializationAndProfessional(specializationId, professionalId);
     }

@@ -19,5 +19,5 @@ public interface MedicalShiftService {
 
     List<Specialization> findAllSpecializationByModality(Modality modality);
 
-    public List<MedicalShift> requestMedicalShift(Specialization specialization, Professional professional, MedicalBranch medicalBranch, WorkingMonth workingMonth, List<WorkingDay> workingDays, WorkingShift workingShift);
+    public List<MedicalShift> requestMedicalShift(Specialization specialization, Professional professional, MedicalBranch medicalBranch, WorkingMonth workingMonth, List<WorkingDay> workingDays, WorkingShift workingShift) throws Exception;
 }

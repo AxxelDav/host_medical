@@ -16,7 +16,6 @@ public interface MedicalBranchService {
 
     MedicalBranch findByLocaleAndNumberAndStreet(String locale, String streetNumber, String street);
 
-    //List<MedicalBranch> findMedicalBranchBySpecializationAndProfessional(Specialization specialization, Professional professional)
     List<MedicalBranch> findMedicalBranchBySpecializationAndProfessional(Long specializationId, Long professionalId);
 
 }
