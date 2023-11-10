@@ -34,14 +34,15 @@ public class MedicalBranchFacadeImpl implements MedicalBranchFacade {
     }
 
     @Override
-    public MedicalBranchDTO getMedicalBranch(Long id) throws Exception {
-        MedicalBranch medicalBranch = medicalBranchService.getMedicalBranch(id);
+    public MedicalBranchDTO getMedicalBranch(Long medicalBranchId) throws Exception {
+        MedicalBranch medicalBranch = medicalBranchService.getMedicalBranch(medicalBranchId);
         return medicalBranchDtoMapper.toDto(medicalBranch);
     }
 
     @Override
-    public MedicalBranchDTO updateMedicalBranch(MedicalBranchRequest request) throws Exception {
+    public MedicalBranchDTO updateMedicalBranch(MedicalBranchRequest request, Long medicalBranchId) throws Exception {
         MedicalBranch medicalBranchToBeUpdate = medicalBranchRequestMapper.toDomain(request);
+        medicalBranchToBeUpdate.setId(medicalBranchId);
         MedicalBranch medicalBranchUpdated = medicalBranchService.updateMedicalBranch(medicalBranchToBeUpdate);
         return medicalBranchDtoMapper.toDto(medicalBranchUpdated);
     }

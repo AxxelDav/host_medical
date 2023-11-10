@@ -10,6 +10,8 @@ import com.medical.domain.model.Specialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SpecializationFacadeImpl implements SpecializationFacade {
 
@@ -35,16 +37,22 @@ public class SpecializationFacadeImpl implements SpecializationFacade {
     }
 
     @Override
-    public SpecializationDTO updateSpecialization(SpecializationRequest request) throws Exception {
+    public List<SpecializationDTO> getAllSpecializations() {
+        List<Specialization> specializations = specializationService.getAllSpecializations();
+        return specializationDtoMapper.toDto(specializations);
+    }
+
+    @Override
+    public SpecializationDTO updateSpecialization(SpecializationRequest request, Long specializationId) throws Exception {
         Specialization specializationToBeUpdated = specializationRequestMapper.toDomain(request);
+        specializationToBeUpdated.setId(specializationId);
         Specialization specializationUpdated = specializationService.updateSpecialization(specializationToBeUpdated);
         return specializationDtoMapper.toDto(specializationUpdated);
     }
 
     @Override
-    public void deleteSpecialization(Long id) throws Exception {
-        Specialization specialization = specializationService.getSpecialization(id);
-        specializationService.deleteSpecialization(id);
+    public void deleteSpecialization(Long specializationId) throws Exception {
+        specializationService.deleteSpecialization(specializationId);
     }
 
     @Override

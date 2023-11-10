@@ -11,7 +11,7 @@ public interface MedicalBranchFacade {
 
     MedicalBranchDTO getMedicalBranch(Long id) throws Exception;
 
-    MedicalBranchDTO updateMedicalBranch(MedicalBranchRequest request) throws Exception;
+    MedicalBranchDTO updateMedicalBranch(MedicalBranchRequest request, Long medicalBranchId) throws Exception;
 
     void deleteMedicalBranch(Long id) throws Exception;
 

@@ -31,21 +31,21 @@ public class TimeConsultationFacadeImpl implements TimeConsultationFacade {
     }
 
     @Override
-    public TimeConsultationDTO getTimeConsultation(Long id) throws Exception {
-        TimeConsultation timeConsultation = timeConsultationService.getTimeConsultation(id);
+    public TimeConsultationDTO getTimeConsultation(Long timeConsultationId) throws Exception {
+        TimeConsultation timeConsultation = timeConsultationService.getTimeConsultation(timeConsultationId);
         return timeConsultationDtoMapper.toDto(timeConsultation);
     }
 
     @Override
-    public TimeConsultationDTO updateTimeConsultation(TimeConsultationRequest request) throws Exception {
+    public TimeConsultationDTO updateTimeConsultation(TimeConsultationRequest request, Long timeConsultationId) throws Exception {
         TimeConsultation timeConsultationToBeUpdated = timeConsultationRequestMapper.toDomain(request);
+        timeConsultationToBeUpdated.setId(timeConsultationId);
         TimeConsultation timeConsultationUpdated = timeConsultationService.createTimeConsultation(timeConsultationToBeUpdated);
         return timeConsultationDtoMapper.toDto(timeConsultationUpdated);
     }
 
     @Override
     public void deleteTimeConsultation(Long id) throws Exception {
-        TimeConsultation timeConsultation = timeConsultationService.getTimeConsultation(id);
         timeConsultationService.deleteTimeConsultation(id);
     }
 }

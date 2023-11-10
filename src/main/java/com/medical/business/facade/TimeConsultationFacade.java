@@ -9,7 +9,7 @@ public interface TimeConsultationFacade {
 
     TimeConsultationDTO getTimeConsultation(Long id) throws Exception;
 
-    TimeConsultationDTO updateTimeConsultation(TimeConsultationRequest request) throws Exception;
+    TimeConsultationDTO updateTimeConsultation(TimeConsultationRequest request, Long timeConsultationId) throws Exception;
 
     void deleteTimeConsultation(Long id) throws Exception;
 }

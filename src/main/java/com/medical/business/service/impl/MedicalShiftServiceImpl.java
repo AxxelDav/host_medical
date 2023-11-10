@@ -137,7 +137,7 @@ public class MedicalShiftServiceImpl implements MedicalShiftService {
         Long workingShiftId = workingShift != null ? workingShift.getId() : null;
 
         if (workingMonth != null && medicalBranch != null && workingShift != null ) {
-            validateParameterShiftRequest.validate(specialization.getDesciption(), workingMonth.getMonth(), medicalBranch.getLocation(), medicalBranch.getNumberStreet().toString(), medicalBranch.getStreet(), workingDays, workingShift.getDescription());
+            validateParameterShiftRequest.validate(specialization.getDescription(), workingMonth.getMonth(), medicalBranch.getLocation(), medicalBranch.getNumberStreet().toString(), medicalBranch.getStreet(), workingDays, workingShift.getDescription());
         }
 
 

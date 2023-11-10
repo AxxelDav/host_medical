@@ -11,7 +11,7 @@ public interface WorkingShiftFacade {
 
     WorkingShiftDTO getWorkShift(Long id) throws Exception;
 
-    WorkingShiftDTO updateWorkShift(WorkingShiftRequest request, Long id) throws Exception;
+    WorkingShiftDTO updateWorkShift(WorkingShiftRequest request, Long workingShiftId) throws Exception;
 
     void deleteWorkShift(Long id) throws Exception;
 

@@ -38,8 +38,9 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public UserDTO updateUser(UserRequest request) throws Exception {
+    public UserDTO updateUser(UserRequest request, Long userId) throws Exception {
         User userToBeUpdated = userRequestMapper.toDomain(request);
+        userToBeUpdated.setId(userId);
         User userUpdated = userService.updateUser(userToBeUpdated);
         return userDtoMapper.toDto(userUpdated);
     }

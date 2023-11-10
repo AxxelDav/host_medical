@@ -39,16 +39,15 @@ public class WorkingShiftFacadeImpl implements WorkingShiftFacade {
     }
 
     @Override
-    public WorkingShiftDTO updateWorkShift(WorkingShiftRequest request, Long id) throws Exception {
-        WorkingShift workingShift = workShiftService.getWorkShift(id);
+    public WorkingShiftDTO updateWorkShift(WorkingShiftRequest request, Long workingShiftId) throws Exception {
         WorkingShift workingShiftToUpdate = workingShiftRequestMapper.toDomain(request);
+        workingShiftToUpdate.setId(workingShiftId);
         WorkingShift workingShiftUpdated = workShiftService.updateWorkShift(workingShiftToUpdate);
         return workingShiftDtoMapper.toDto(workingShiftUpdated);
     }
 
     @Override
     public void deleteWorkShift(Long id) throws Exception {
-        WorkingShift workingShiftToDelete = workShiftService.getWorkShift(id);
         workShiftService.deleteWorkShift(id);
     }
 

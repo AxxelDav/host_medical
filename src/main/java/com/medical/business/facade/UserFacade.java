@@ -9,7 +9,7 @@ public interface UserFacade {
 
     UserDTO createUser(UserRequest request);
 
-    UserDTO updateUser(UserRequest request) throws Exception;
+    UserDTO updateUser(UserRequest request, Long userId) throws Exception;
 
     void deleteUser(Long UserId) throws Exception;
 

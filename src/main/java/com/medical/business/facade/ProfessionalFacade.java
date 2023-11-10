@@ -12,7 +12,7 @@ public interface ProfessionalFacade {
 
     ProfessionalDTO createProfessional(ProfessionalRequest request);
 
-    ProfessionalDTO updateProfessional(ProfessionalRequest request);
+    ProfessionalDTO updateProfessional(ProfessionalRequest request, Long professionalId);
 
     void deleteProfessional(Long specializationId) throws Exception;
 

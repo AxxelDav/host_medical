@@ -2,6 +2,7 @@ package com.medical.presentation.controller;
 
 import com.medical.business.facade.WorkingDayFacade;
 import com.medical.domain.dto.WorkingDayDTO;
+import com.medical.presentation.controller.endpoint.WorkingDayEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/workingday")
-public class WorkingDayController {
+@RequestMapping(WorkingDayEndpoint.BASE)
+public class WorkingDayController implements WorkingDayEndpoint {
 
 
     @Autowired
     private WorkingDayFacade workingDayFacade;
 
 
-    @GetMapping("/{workingDayId}")
+    @GetMapping(value = WORKING_DAY_ID)
     public ResponseEntity<WorkingDayDTO> getWorkingDay(@PathVariable Long workingDayId) throws Exception {
         WorkingDayDTO workingDay = workingDayFacade.getWorkingDay(workingDayId);
         return new ResponseEntity<>(workingDay, HttpStatus.OK);
@@ -33,4 +34,5 @@ public class WorkingDayController {
         List<WorkingDayDTO> workingDays = workingDayFacade.getAllWorkingDay();
         return new ResponseEntity<>(workingDays, HttpStatus.OK);
     }
+
 }

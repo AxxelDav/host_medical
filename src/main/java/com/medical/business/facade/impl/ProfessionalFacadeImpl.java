@@ -40,15 +40,16 @@ public class ProfessionalFacadeImpl implements ProfessionalFacade {
     }
 
     @Override
-    public ProfessionalDTO updateProfessional(ProfessionalRequest request) {
+    public ProfessionalDTO updateProfessional(ProfessionalRequest request, Long professionalId) {
         Professional professionalToBeUpdated = professionalRequestMapper.toDomain(request);
+        professionalToBeUpdated.setId(professionalId);
         Professional professionalUpdated = professionalService.createProfessional(professionalToBeUpdated);
         return professionalDtoMapper.toDto(professionalUpdated);
     }
 
     @Override
     public void deleteProfessional(Long specializationId) throws Exception {
-
+        professionalService.deleteProfessional(specializationId);
     }
 
 

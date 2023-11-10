@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class SpecializationRequest {
 
-    private String desciption;
+    private String description;
     private Modality modality;
 }

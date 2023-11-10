@@ -20,9 +20,9 @@ public class Specialization implements Serializable {
     private Long id;
 
     @Column(name = "DESCRIPCION")
-    private String desciption;
+    private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "MODALIDAD_ID")
     private Modality modality;
 

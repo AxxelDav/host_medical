@@ -20,10 +20,6 @@ public class Modality implements Serializable {
     private Long id;
 
     @Column(name = "DESCRIPCION")
-    private String desciption;
-
-    @OneToOne(mappedBy = "modality")
-    private Specialization specialization;
-
+    private String description;
 
 }

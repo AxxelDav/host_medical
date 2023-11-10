@@ -5,6 +5,8 @@ import com.medical.domain.model.Specialization;
 import com.medical.persistence.SpecializationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class SpecializationServiceImpl implements SpecializationService {
@@ -25,6 +27,10 @@ public class SpecializationServiceImpl implements SpecializationService {
         return specializationRepository.findById(id).orElseThrow(() -> new Exception("No existe ESPECIALIZACION con id " + id));
     }
 
+    public List<Specialization> getAllSpecializations() {
+        return specializationRepository.findAll();
+    }
+
     @Override
     public Specialization updateSpecialization(Specialization specialization) throws Exception {
         getSpecialization(specialization.getId());
@@ -41,6 +47,5 @@ public class SpecializationServiceImpl implements SpecializationService {
     public Specialization findSpecializationByDescripcion(String specialization) {
         return specializationRepository.findSpecializationByDescripcion(specialization);
     }
-
 
 }
