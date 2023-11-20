@@ -2,7 +2,7 @@ package com.medical.presentation.controller.endpoint;
 
 public interface MedicalBranchEndpoint {
 
-    String BASE = "/medical-branch";
+    String BASE = "/v1/medical-branch";
 
     String LOCALE = "locale";
     String STREET_NUMBER = "streetNumber";

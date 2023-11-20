@@ -1,15 +1,17 @@
 package com.medical.business.facade;
 
-import com.medical.domain.dto.TimeConsultationDTO;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.TimeConsultationResponse;
 import com.medical.domain.dto.request.TimeConsultationRequest;
 
 public interface TimeConsultationFacade {
 
-    TimeConsultationDTO createTimeConsultation(TimeConsultationRequest request);
+    TimeConsultationResponse create(TimeConsultationRequest request) throws IllegalArgumentException;
 
-    TimeConsultationDTO getTimeConsultation(Long id) throws Exception;
+    TimeConsultationResponse findById(Long timeConsultationId) throws NonExistingResourceException;
 
-    TimeConsultationDTO updateTimeConsultation(TimeConsultationRequest request, Long timeConsultationId) throws Exception;
+    TimeConsultationResponse update(TimeConsultationRequest request, Long timeConsultationId) throws NonExistingResourceException, IllegalArgumentException;
 
-    void deleteTimeConsultation(Long id) throws Exception;
+    void delete(Long id) throws NonExistingResourceException;
 }

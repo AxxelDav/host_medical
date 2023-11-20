@@ -4,7 +4,9 @@ import com.medical.business.facade.UserFacade;
 import com.medical.business.mapper.UserDtoMapper;
 import com.medical.business.mapper.UserRequestMapper;
 import com.medical.business.service.UserService;
-import com.medical.domain.dto.UserDTO;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.UserResponse;
 import com.medical.domain.dto.request.UserRequest;
 import com.medical.domain.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,28 +27,28 @@ public class UserFacadeImpl implements UserFacade {
 
 
     @Override
-    public UserDTO getUserById(Long userId) throws Exception {
-        User user = userService.getUserById(userId);
+    public UserResponse findById(Long userId) throws NonExistingResourceException {
+        User user = userService.findById(userId);
         return userDtoMapper.toDto(user);
     }
 
     @Override
-    public UserDTO createUser(UserRequest request) {
+    public UserResponse create(UserRequest request) throws IllegalArgumentException  {
         User userToBeCreated = userRequestMapper.toDomain(request);
-        User userCreated = userService.createUser(userToBeCreated);
+        User userCreated = userService.create(userToBeCreated);
         return userDtoMapper.toDto(userCreated);
     }
 
     @Override
-    public UserDTO updateUser(UserRequest request, Long userId) throws Exception {
+    public UserResponse update(UserRequest request, Long userId) throws NonExistingResourceException, IllegalArgumentException {
         User userToBeUpdated = userRequestMapper.toDomain(request);
         userToBeUpdated.setId(userId);
-        User userUpdated = userService.updateUser(userToBeUpdated);
+        User userUpdated = userService.update(userToBeUpdated);
         return userDtoMapper.toDto(userUpdated);
     }
 
     @Override
-    public void deleteUser(Long userId) throws Exception {
-        userService.deleteUser(userId);
+    public void delete(Long userId) throws NonExistingResourceException {
+        userService.delete(userId);
     }
 }

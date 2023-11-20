@@ -12,10 +12,11 @@ public class ProfessionalRequest {
     private String lastName;
     private Integer identificationNumber;
     private Integer phoneNumber;
-    private WorkingShift workingShift;
-    private Specialization specialization;
-    private List<WorkingDay> workingDays;
+    private WorkingShiftRequest workingShift;
+    private SpecializationRequest specialization;
+    private List<WorkingDayRequest> workingDays;
     private Integer hoursPerDay;
-    private TimeConsultation timeConsultation;
-    private MedicalBranch medicalBranch;
+    private TimeConsultationRequest timeConsultation;
+    private MedicalBranchRequest medicalBranch;
+    private ModalityRequest modality;
 }

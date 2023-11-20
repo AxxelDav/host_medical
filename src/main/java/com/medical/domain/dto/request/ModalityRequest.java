@@ -7,5 +7,5 @@ import lombok.Data;
 public class ModalityRequest {
 
     private String desciption;
-    private Specialization specialization;
+    private SpecializationRequest specialization;
 }

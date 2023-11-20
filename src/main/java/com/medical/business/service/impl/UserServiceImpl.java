@@ -1,9 +1,13 @@
 package com.medical.business.service.impl;
 
 import com.medical.business.service.UserService;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
 import com.medical.domain.model.User;
 import com.medical.persistence.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -15,24 +19,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long userId) throws Exception {
-        return userRepository.findById(userId).orElseThrow(() -> new Exception("No existe USER con ID " + userId));
+    public User findById(Long userId) throws NonExistingResourceException {
+        return userRepository.findById(userId).orElseThrow(() -> new NonExistingResourceException("No existe USER con ID " + userId));
     }
 
     @Override
-    public User createUser(User user) {
+    public User create(User user) throws IllegalArgumentException {
+        if (Objects.isNull(user)) {
+            throw new IllegalArgumentException("Error creating user", "User can´t be null");
+        }
         return userRepository.save(user);
     }
 
     @Override
-    public User updateUser(User user) throws Exception {
-        getUserById(user.getId());
+    public User update(User user) throws NonExistingResourceException, IllegalArgumentException {
+        if (Objects.isNull(user)) {
+            throw new IllegalArgumentException("Error: with user", "User can´t be null");
+        }
+        findById(user.getId());
         return userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(Long UserId) throws Exception {
-        getUserById(UserId);
+    public void delete(Long UserId) throws NonExistingResourceException {
+        findById(UserId);
         userRepository.deleteById(UserId);
     }
 

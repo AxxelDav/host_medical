@@ -1,6 +1,6 @@
 package com.medical.business.mapper;
 
-import com.medical.domain.dto.WorkingShiftDTO;
+import com.medical.domain.dto.response.WorkingShiftResponse;
 import com.medical.domain.model.WorkingShift;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,12 @@ public class WorkingShiftDtoMapper {
     @Autowired
     private ModelMapper modelMapper;
 
-    public WorkingShiftDTO toDto(WorkingShift workingShift) {
-        return modelMapper.map(workingShift, WorkingShiftDTO.class);
+    public WorkingShiftResponse toDto(WorkingShift workingShift) {
+        return modelMapper.map(workingShift, WorkingShiftResponse.class);
 
     }
 
-    public List<WorkingShiftDTO> toDto(List<WorkingShift> workingShifts) {
+    public List<WorkingShiftResponse> toDto(List<WorkingShift> workingShifts) {
         return workingShifts
                 .stream()
                 .map(workingShift -> toDto(workingShift))

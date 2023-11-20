@@ -1,33 +1,36 @@
 package com.medical.business.facade;
 
-import com.medical.domain.dto.ProfessionalDTO;
+import com.medical.common.exception.DataInconsistencyException;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.request.WorkingDayRequest;
+import com.medical.domain.dto.response.ProfessionalResponse;
 import com.medical.domain.dto.request.ProfessionalRequest;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ProfessionalFacade {
 
-    ProfessionalDTO getProfessionalById(Long id);
+    ProfessionalResponse getById(Long professionalId) throws NonExistingResourceException;
 
-    ProfessionalDTO createProfessional(ProfessionalRequest request);
+    ProfessionalResponse create(ProfessionalRequest request) throws IllegalArgumentException;
 
-    ProfessionalDTO updateProfessional(ProfessionalRequest request, Long professionalId);
+    ProfessionalResponse update(ProfessionalRequest request, Long professionalId) throws NonExistingResourceException, IllegalArgumentException;
 
-    void deleteProfessional(Long specializationId) throws Exception;
+    void delete(Long specializationId) throws NonExistingResourceException;
 
-    List<ProfessionalDTO> getAllProfesionalByWorkShiftId(Long workingShiftId);
+    List<ProfessionalResponse> getAllProfesionalByWorkShiftId(Long workingShiftId) throws DataInconsistencyException, IllegalArgumentException;
 
-    List<ProfessionalDTO> getAllProfesionalBySpecializationId(Long specializationId);
+    List<ProfessionalResponse> getAllProfesionalBySpecializationId(Long specializationId) throws DataInconsistencyException, IllegalArgumentException;
 
-    List<ProfessionalDTO> getAllProfesionalByTimeConsultationId(Long timeConsultationId);
+    List<ProfessionalResponse> getAllProfesionalByTimeConsultationId(Long timeConsultationId) throws DataInconsistencyException, IllegalArgumentException;
 
-    List<ProfessionalDTO> getAllProfessionalIdByWorkingdayId(Long workingDayId);
+    List<ProfessionalResponse> getAllProfessionalIdByWorkingdayId(Long workingDayId) throws DataInconsistencyException, IllegalArgumentException, NonExistingResourceException;
 
-    void updateTimeConsultation(Long professionalId, Long timeConsultationId);
+    void addWorkingDaysToProfessional(Long professionalId, List<Long> workingDayIds) throws NonExistingResourceException;
 
-    void updateSpecialization(Long professionalId, Long timeConsultationId);
+    void updateTimeConsultationForProfessional(Long professionalId, Long timeConsultationId) throws NonExistingResourceException, IllegalArgumentException, DataInconsistencyException;
 
-    public void createSchedulesForProfessional(Long professionalId, LocalDateTime registrationProfessionalDate);
+    void updateSpecializationForProfessional(Long professionalId, Long specializationId) throws NonExistingResourceException, DataInconsistencyException, IllegalArgumentException;
 
 }

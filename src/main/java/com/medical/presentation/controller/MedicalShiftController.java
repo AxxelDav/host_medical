@@ -1,20 +1,22 @@
 package com.medical.presentation.controller;
 
 import com.medical.business.facade.MedicalShiftFacade;
-import com.medical.domain.dto.MedicalShiftDTO;
-import com.medical.domain.dto.SpecializationDTO;
-import com.medical.domain.dto.request.*;
+import com.medical.common.exception.DataInconsistencyException;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.MedicalShiftResponse;
 import com.medical.presentation.controller.endpoint.MedicalShiftEndpoint;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 @Api
 @RestController
@@ -25,63 +27,66 @@ public class MedicalShiftController implements MedicalShiftEndpoint {
     private MedicalShiftFacade medicalShiftFacade;
 
     @ApiOperation(value = "Regresa un Turno Medico", notes = "Este metodo permite obtener un Turno Medico")
-    @GetMapping(value = ID)
-    private ResponseEntity<MedicalShiftDTO> getMedicalShift(@PathVariable Long medicalShiftId) throws Exception {
-        MedicalShiftDTO medicalShift = medicalShiftFacade.getMedicalShift(medicalShiftId);
+    @GetMapping(value = MedicalShiftEndpoint.MEDICAL_SHIFT_ID, produces = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntity<MedicalShiftResponse> getMedicalShift(@PathVariable Long medicalShiftId) throws NonExistingResourceException {
+        MedicalShiftResponse medicalShift = medicalShiftFacade.findById(medicalShiftId);
         return new ResponseEntity<>(medicalShift, HttpStatus.OK);
     }
 
 
-    @ApiOperation(value = "Creacion de horario para un Turno Medico", notes = "Este metodo permite crear el horario para un Turno Medico")
-    @PutMapping(value = REGISTRATION_PROFESSIONAL_DATE)
-    public ResponseEntity<String> createSchedules(@PathVariable String registrationProfessionalDate, @RequestBody ProfessionalRequest request) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime dateTime = LocalDateTime.parse(registrationProfessionalDate, formatter);
-        medicalShiftFacade.createSchedules(dateTime, request);
-        return new ResponseEntity<>("Schedule created with success", HttpStatus.CREATED);
+    @ApiOperation(value = "Creacion de Turno Medicos Disponibles para un Professional", notes = "Este metodo permite crear Turno Medicos Disponibles para un Professional")
+    @PostMapping(value = MedicalShiftEndpoint.PROFESSIONAL_ID)
+    public ResponseEntity<String> createMedicalShiftForProfessional(@PathVariable Long professionalId, @RequestParam("registrationProfessionalDate") String registrationProfessionalDate) throws IllegalArgumentException, NonExistingResourceException {
+        medicalShiftFacade.createMedicalShiftForProfessional(professionalId, registrationProfessionalDate);
+        return new ResponseEntity<>("Medical Shift created with success for Professional with ID: " + professionalId, HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "Toma un Turno Medico por un paciente", notes = "Este metodo permite tomar Turno Medico por un paciente, actualizando el estado del turno")
-    @GetMapping(value = MEDICAL_SHIFT_ID)
-    public ResponseEntity<String> takeMedicalShift(@PathVariable Long medicalShiftId, @RequestBody UserRequest request) throws Exception {
-        medicalShiftFacade.takeMedicalShift(medicalShiftId, request);
-        return new ResponseEntity<>("TakeShift with ID: ".concat(medicalShiftId.toString()).concat(" is taked."), HttpStatus.OK);
+    @ApiOperation(value = "Toma un Turno Medico por parte de un paciente", notes = "Este metodo permite tomar Turno Medico por parte de un paciente, actualizando la disponibilidad del turno")
+    @PutMapping(value = TAKE_MEDICAL_SHIFT)
+    public ResponseEntity<Void> takeMedicalShift(@PathVariable Long medicalShiftId, @PathVariable Long userId) throws NonExistingResourceException, IllegalArgumentException {
+        medicalShiftFacade.takeMedicalShift(medicalShiftId, userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation(value = "Cancela un Turno Medico", notes = "Este metodo permite cancelar Turno Medico")
     @PutMapping(value = MEDICAL_SHIFT_ID)
-    public ResponseEntity<String> cancelMedicalShift(@PathVariable Long medicalShiftId) throws Exception {
+    public ResponseEntity<Void> cancelMedicalShift(@PathVariable Long medicalShiftId) throws NonExistingResourceException {
         medicalShiftFacade.cancelMedicalShift(medicalShiftId);
-        return new ResponseEntity<>("MedicalShift with ID: ".concat(medicalShiftId.toString()).concat(" was canceled."), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
-    @ApiOperation(value = "Regresa un Turno Medico por Profesional y Especialidad medica", notes = "Este metodo permite obtener Turno Medico por Profesional y Especialidad medica")
-    @GetMapping(value = PROFESSIONALS)
-    private ResponseEntity<List<MedicalShiftDTO>> findAllForProfessionalBySpecialization(@RequestBody SpecializationRequest request) throws Exception {
-        List<MedicalShiftDTO> medicalShift = medicalShiftFacade.findAllForProfessionalBySpecialization(request);
-        return new ResponseEntity<>(medicalShift, HttpStatus.OK);
-    }
-
-
-    @ApiOperation(value = "Regresa una lista de Especialidades por Especialidad medica y Modalidad", notes = "Este metodo permite obtener una lista de Especialidades por Especialidad medica y Modalidad")
-    @GetMapping(value = SPECIALIZATIONS)
-    private ResponseEntity<List<SpecializationDTO>> findAllSpecializationByModality(@RequestBody ModalityRequest request) throws Exception {
-        List<SpecializationDTO> medicalShift = medicalShiftFacade.findAllSpecializationByModality(request);
-        return new ResponseEntity<>(medicalShift, HttpStatus.OK);
+    @ApiOperation(value = "Regresa todos los Turnos Medicos por Especialidad medica", notes = "Este metodo permite obtener todos los Turnos Medicos por Especialidad medica")
+    @GetMapping(value = ALL_MEDICAL_SHIFT_BY_SPECIALIZATION, produces = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntity<List<MedicalShiftResponse>> findAllMedicalShiftBySpecialization(@RequestParam("specialization") String specialization) throws DataInconsistencyException, IllegalArgumentException {
+        List<MedicalShiftResponse> medicalShifts = medicalShiftFacade.findAllMedicalShiftBySpecialization(specialization);
+        ResponseEntity<List<MedicalShiftResponse>> response;
+        if (isNull(medicalShifts) || medicalShifts.isEmpty()) {
+            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity<>(medicalShifts, HttpStatus.OK);
+        }
+        return response;
     }
 
 
     @ApiOperation(value = "Devuelve un listado de Turnos Medicos disponibles para tomar", notes = "Este metodo permite obtener un listado de Turnos Medicos disponibles para tomar")
-    @GetMapping(value = REQUEST_MEDICAL_SHIFT)
-    private ResponseEntity<List<MedicalShiftDTO>> requestMedicalShift(@RequestBody SpecializationRequest specializationRequest,
-                                                                        @RequestBody ProfessionalRequest professionalRequest,
-                                                                        @RequestBody MedicalBranchRequest medicalBranchRequest,
-                                                                        @RequestBody WorkingMonthRequest workingMonthRequest,
-                                                                        @RequestBody List<WorkingDayRequest> workingDayRequests,
-                                                                        @RequestBody WorkingShiftRequest workingShiftRequest) throws Exception {
-        List<MedicalShiftDTO> medicalShift = medicalShiftFacade.requestMedicalShift(specializationRequest, professionalRequest, medicalBranchRequest, workingMonthRequest, workingDayRequests, workingShiftRequest);
-        return new ResponseEntity<>(medicalShift, HttpStatus.OK);
+    @GetMapping(value = REQUEST_MEDICAL_SHIFT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntity<List<MedicalShiftResponse>> requestMedicalShift(@PathVariable Long specializationId,
+                                                                           @PathVariable Long professionalId,
+                                                                           @PathVariable Long medicalBranchId,
+                                                                           @PathVariable Long workingMonthId,
+                                                                           @PathVariable Long workingShiftId,
+                                                                           @RequestBody  List<Long> workingDayIds
+                                                                           ) throws DataInconsistencyException, IllegalArgumentException {
+        List<MedicalShiftResponse> medicalShifts = medicalShiftFacade.requestMedicalShift(specializationId, professionalId, medicalBranchId, workingMonthId, workingShiftId, workingDayIds);
+        ResponseEntity<List<MedicalShiftResponse>> response;
+        if (isNull(medicalShifts) || medicalShifts.isEmpty()) {
+            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity<>(medicalShifts, HttpStatus.OK);
+        }
+        return response;
     }
 
 }

@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 @Data
 public class MedicalShiftRequest {
 
-    private MedicalBranch medicalBranch;
-    private User user;
-    private Professional professional;
+    private MedicalBranchRequest medicalBranch;
+    private UserRequest user;
+    private ProfessionalRequest professional;
     private LocalDateTime ShiftDate;
     private String available;
     private String modality;

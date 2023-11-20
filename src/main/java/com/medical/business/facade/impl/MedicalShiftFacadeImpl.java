@@ -5,14 +5,16 @@ import com.medical.business.mapper.*;
 import com.medical.business.service.MedicalShiftService;
 import com.medical.business.service.ProfessionalService;
 import com.medical.business.service.SpecializationService;
-import com.medical.domain.dto.MedicalShiftDTO;
-import com.medical.domain.dto.SpecializationDTO;
+import com.medical.common.exception.DataInconsistencyException;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.MedicalShiftResponse;
+import com.medical.domain.dto.response.SpecializationResponse;
 import com.medical.domain.dto.request.*;
 import com.medical.domain.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -51,57 +53,46 @@ public class MedicalShiftFacadeImpl implements MedicalShiftFacade {
 
 
     @Override
-    public MedicalShiftDTO getMedicalShift(Long id) throws Exception {
+    public MedicalShiftResponse findById(Long id) throws NonExistingResourceException {
         MedicalShift medicalShift = medicalShiftService.getMedicalShift(id);
         return medicalBranchDtoMapper.toDto(medicalShift);
     }
 
     @Override
-    public void createSchedules(LocalDateTime registrationProfessionalDate, ProfessionalRequest request) {
-        Professional professional = professionalRequestMapper.toDomain(request);
-        medicalShiftService.createSchedules(registrationProfessionalDate, professional);
+    public void createMedicalShiftForProfessional(Long professionalId, String registrationProfessionalDate) throws IllegalArgumentException, NonExistingResourceException {
+        medicalShiftService.createMedicalShiftForProfessional(professionalId, registrationProfessionalDate);
     }
 
     @Override
-    public void takeMedicalShift(Long medicalShiftId, UserRequest request) throws Exception {
-        User user = userRequestMapper.toDomain(request);
-        medicalShiftService.takeMedicalShift(medicalShiftId, user);
+    public void takeMedicalShift(Long medicalShiftId, Long userId) throws NonExistingResourceException, IllegalArgumentException {
+        medicalShiftService.takeMedicalShift(medicalShiftId, userId);
     }
 
     @Override
-    public void cancelMedicalShift(Long medicalShiftId) throws Exception {
+    public void cancelMedicalShift(Long medicalShiftId) throws NonExistingResourceException {
         medicalShiftService.cancelMedicalShift(medicalShiftId);
     }
 
     @Override
-    public List<MedicalShiftDTO> findAllForProfessionalBySpecialization(SpecializationRequest request) {
-        Specialization specialization = specializationRequestMapper.toDomain(request);
-        List<MedicalShift> medicalShifts = medicalShiftService.findAllForProfessionalBySpecialization(specialization);
+    public List<MedicalShiftResponse> findAllMedicalShiftBySpecialization(String specialization) throws DataInconsistencyException, IllegalArgumentException {
+        List<MedicalShift> medicalShifts = medicalShiftService.findAllMedicalShiftBySpecialization(specialization);
         return medicalShiftDtoMapper.toDto(medicalShifts);
     }
 
     @Override
-    public List<SpecializationDTO> findAllSpecializationByModality(ModalityRequest request) {
-        Modality modality = modalityRequestMapper.toDomain(request);
-        List<Specialization> specializations = medicalShiftService.findAllSpecializationByModality(modality);
-        return specializationDtoMapper.toDto(specializations);
-    }
+    public List<MedicalShiftResponse> requestMedicalShift(Long specializationId,
+                                                          Long professionalId,
+                                                          Long medicalBranchId,
+                                                          Long workingMonthId,
+                                                          Long workingShiftId,
+                                                          List<Long> workingDayIds) throws DataInconsistencyException, IllegalArgumentException {
 
-    @Override
-    public List<MedicalShiftDTO> requestMedicalShift(SpecializationRequest specializationRequest,
-                                                     ProfessionalRequest professionalRequest,
-                                                     MedicalBranchRequest medicalBranchRequest,
-                                                     WorkingMonthRequest workingMonthRequest,
-                                                     List<WorkingDayRequest> workingDayRequests,
-                                                     WorkingShiftRequest workingShiftRequest) throws Exception {
-
-        Specialization specialization = specializationRequestMapper.toDomain(specializationRequest);
-        Professional professional = professionalRequestMapper.toDomain(professionalRequest);
-        MedicalBranch medicalBranch = medicalBranchRequestMapper.toDomain(medicalBranchRequest);
-        WorkingMonth workingMonth = workingMonthRequestMapper.toDomain(workingMonthRequest);
-        List<WorkingDay> workingDays = workingDayRequestsMapper.toDomain(workingDayRequests);
-        WorkingShift workingShift = workingShiftRequestMapper.toDomain(workingShiftRequest);
-        List<MedicalShift> medicalShifts = medicalShiftService.requestMedicalShift(specialization, professional, medicalBranch, workingMonth, workingDays, workingShift);
+        List<MedicalShift> medicalShifts = medicalShiftService.requestMedicalShift(specializationId,
+                                                                                   professionalId,
+                                                                                   medicalBranchId,
+                                                                                   workingMonthId,
+                                                                                   workingShiftId,
+                                                                                   workingDayIds);
         return medicalShiftDtoMapper.toDto(medicalShifts);
     }
 }

@@ -1,6 +1,6 @@
 package com.medical.business.mapper;
 
-import com.medical.domain.dto.UserDTO;
+import com.medical.domain.dto.response.UserResponse;
 import com.medical.domain.model.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,12 @@ public class UserDtoMapper {
     @Autowired
     private ModelMapper modelMapper;
 
-    public UserDTO toDto(User user) {
-        return modelMapper.map(user, UserDTO.class);
+    public UserResponse toDto(User user) {
+        return modelMapper.map(user, UserResponse.class);
 
     }
 
-    public List<UserDTO> toDto(List<User> users) {
+    public List<UserResponse> toDto(List<User> users) {
         return users
                 .stream()
                 .map(user -> toDto(user))

@@ -4,7 +4,9 @@ import com.medical.business.facade.TimeConsultationFacade;
 import com.medical.business.mapper.TimeConsultationDtoMapper;
 import com.medical.business.mapper.TimeConsultationRequestMapper;
 import com.medical.business.service.TimeConsultationService;
-import com.medical.domain.dto.TimeConsultationDTO;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.TimeConsultationResponse;
 import com.medical.domain.dto.request.TimeConsultationRequest;
 import com.medical.domain.model.TimeConsultation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,28 +26,28 @@ public class TimeConsultationFacadeImpl implements TimeConsultationFacade {
 
 
     @Override
-    public TimeConsultationDTO createTimeConsultation(TimeConsultationRequest request) {
+    public TimeConsultationResponse create(TimeConsultationRequest request) throws IllegalArgumentException {
         TimeConsultation timeConsultationToBeCreated = timeConsultationRequestMapper.toDomain(request);
-        TimeConsultation timeConsultationCreated = timeConsultationService.createTimeConsultation(timeConsultationToBeCreated);
+        TimeConsultation timeConsultationCreated = timeConsultationService.create(timeConsultationToBeCreated);
         return timeConsultationDtoMapper.toDto(timeConsultationCreated);
     }
 
     @Override
-    public TimeConsultationDTO getTimeConsultation(Long timeConsultationId) throws Exception {
-        TimeConsultation timeConsultation = timeConsultationService.getTimeConsultation(timeConsultationId);
+    public TimeConsultationResponse findById(Long timeConsultationId) throws NonExistingResourceException {
+        TimeConsultation timeConsultation = timeConsultationService.findById(timeConsultationId);
         return timeConsultationDtoMapper.toDto(timeConsultation);
     }
 
     @Override
-    public TimeConsultationDTO updateTimeConsultation(TimeConsultationRequest request, Long timeConsultationId) throws Exception {
+    public TimeConsultationResponse update(TimeConsultationRequest request, Long timeConsultationId) throws NonExistingResourceException, IllegalArgumentException {
         TimeConsultation timeConsultationToBeUpdated = timeConsultationRequestMapper.toDomain(request);
         timeConsultationToBeUpdated.setId(timeConsultationId);
-        TimeConsultation timeConsultationUpdated = timeConsultationService.createTimeConsultation(timeConsultationToBeUpdated);
+        TimeConsultation timeConsultationUpdated = timeConsultationService.update(timeConsultationToBeUpdated);
         return timeConsultationDtoMapper.toDto(timeConsultationUpdated);
     }
 
     @Override
-    public void deleteTimeConsultation(Long id) throws Exception {
-        timeConsultationService.deleteTimeConsultation(id);
+    public void delete(Long id) throws NonExistingResourceException {
+        timeConsultationService.delete(id);
     }
 }

@@ -1,6 +1,5 @@
 package com.medical.business.mapper;
 
-import com.medical.domain.dto.ModalityDTO;
 import com.medical.domain.dto.request.ModalityRequest;
 import com.medical.domain.model.Modality;
 import org.modelmapper.ModelMapper;

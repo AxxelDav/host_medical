@@ -1,12 +1,16 @@
 package com.medical.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +27,8 @@ public class WorkingDay implements Serializable {
     @Column(name = "DIA")
     private String day;
 
-    @ManyToMany(mappedBy = "workingDays", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "workingDays", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Professional> professionals;
 
 }

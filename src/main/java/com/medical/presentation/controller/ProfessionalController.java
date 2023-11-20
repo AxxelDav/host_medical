@@ -1,18 +1,23 @@
 package com.medical.presentation.controller;
 
 import com.medical.business.facade.ProfessionalFacade;
-import com.medical.domain.dto.ProfessionalDTO;
+import com.medical.common.exception.DataInconsistencyException;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
 import com.medical.domain.dto.request.ProfessionalRequest;
+import com.medical.domain.dto.request.WorkingDayRequest;
+import com.medical.domain.dto.response.ProfessionalResponse;
 import com.medical.presentation.controller.endpoint.ProfessionalEndpoint;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 @RestController
 @RequestMapping(value = ProfessionalEndpoint.BASE)
@@ -24,91 +29,112 @@ public class ProfessionalController implements ProfessionalEndpoint {
 
     @ApiOperation(value = "Obtener un Medico Profesional", notes = "Este metodo permite obtener un Medico Profesional")
     @GetMapping(value = PROFESSIONAL_ID)
-    public ResponseEntity<ProfessionalDTO> getProfessionalById(@PathVariable Long professionalId) {
-        ProfessionalDTO professional = professionalFacade.getProfessionalById(professionalId);
+    public ResponseEntity<ProfessionalResponse> getProfessionalById(@PathVariable Long professionalId) throws NonExistingResourceException {
+        ProfessionalResponse professional = professionalFacade.getById(professionalId);
         return new ResponseEntity<>(professional, HttpStatus.OK);
     }
 
 
     @ApiOperation(value = "Creacion/Alta de un Medico Profesional", notes = "Este metodo permite dar de alta a un Medico Profesional")
-    @PostMapping
-    public ResponseEntity<ProfessionalDTO> createProfessional(@RequestBody ProfessionalRequest request) {
-        ProfessionalDTO professional = professionalFacade.createProfessional(request);
-        return new ResponseEntity<>(professional, HttpStatus.CREATED);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfessionalResponse> createProfessional(@RequestBody ProfessionalRequest request) throws IllegalArgumentException, NonExistingResourceException {
+        ProfessionalResponse professionalCreated = professionalFacade.create(request);
+        return new ResponseEntity<>(professionalCreated, HttpStatus.CREATED);
     }
 
 
     @ApiOperation(value = "Actualizacion de un Medico Profesional", notes = "Este metodo permite actualizar datos de un Medico Profesional")
-    @PutMapping
-    public ResponseEntity<ProfessionalDTO> updateProfessional(@RequestBody ProfessionalRequest request, Long professionalId) {
-        ProfessionalDTO professional = professionalFacade.updateProfessional(request, professionalId);
-        return new ResponseEntity<>(professional, HttpStatus.OK);
+    @PutMapping(value = PROFESSIONAL_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateProfessional(@PathVariable Long professionalId, @RequestBody ProfessionalRequest request) throws NonExistingResourceException, IllegalArgumentException {
+        professionalFacade.update(request, professionalId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
     @ApiOperation(value = "Eliminacion de un Medico Profesional", notes = "Este metodo permite eliminar un Medico Profesional")
     @DeleteMapping(value = PROFESSIONAL_ID)
-    public ResponseEntity<String> deleteProfessional(@PathVariable Long professionalId) throws Exception {
-        professionalFacade.deleteProfessional(professionalId);
-        return new ResponseEntity<>("Professional con ID: " + professionalId +  " eliminado con éxito", HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deleteProfessional(@PathVariable Long professionalId) throws NonExistingResourceException {
+        professionalFacade.delete(professionalId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
     @ApiOperation(value = "Obtener listado de Medicos Profesionales ", notes = "Este metodo permite obtener un listado de Medicos Profesionales")
-    @GetMapping(value = WORKING_SHIFT_ID)
-    public ResponseEntity<List<ProfessionalDTO>> getAllProfesionalByWorkShiftId(@PathVariable Long workingShiftId) {
-        List<ProfessionalDTO> professionals = professionalFacade.getAllProfesionalByWorkShiftId(workingShiftId);
-        return new ResponseEntity<>(professionals, HttpStatus.OK);
+    @GetMapping(value = WORKING_SHIFT_ID, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProfessionalResponse>> getAllProfesionalByWorkShiftId(@PathVariable Long workingShiftId) throws DataInconsistencyException, IllegalArgumentException {
+        List<ProfessionalResponse> professionals = professionalFacade.getAllProfesionalByWorkShiftId(workingShiftId);
+        ResponseEntity<List<ProfessionalResponse>> response;
+        if (isNull(professionals) || professionals.isEmpty()) {
+            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity<>(professionals, HttpStatus.OK);
+        }
+        return response;
     }
 
 
     @ApiOperation(value = "Obtener listado de Medicos Profesionales por especialidad", notes = "Este metodo permite obtener un listado de Medicos Profesionales por especialidad")
-    @GetMapping(value = SPECIALIZATION_ID)
-    public ResponseEntity<List<ProfessionalDTO>> getAllProfesionalBySpecializationId(@PathVariable Long specializationId) {
-        List<ProfessionalDTO> professionals = professionalFacade.getAllProfesionalBySpecializationId(specializationId);
-        return new ResponseEntity<>(professionals, HttpStatus.OK);
+    @GetMapping(value = SPECIALIZATION_ID, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProfessionalResponse>> getAllProfesionalBySpecializationId(@PathVariable Long specializationId) throws DataInconsistencyException, IllegalArgumentException {
+        List<ProfessionalResponse> professionals = professionalFacade.getAllProfesionalBySpecializationId(specializationId);
+        ResponseEntity<List<ProfessionalResponse>> response;
+        if (isNull(professionals) || professionals.isEmpty()) {
+            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity<>(professionals, HttpStatus.OK);
+        }
+        return response;
+    }
+
+    @ApiOperation(value = "Obtener listado de Medicos Profesionales por tiempo de Consulta", notes = "Este metodo permite obtener un listado de Medicos Profesionales por tiempo de Consulta")
+    @GetMapping(value = TIME_CONSULTATION_ID, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProfessionalResponse>> getAllProfesionalByTimeConsultationId(@PathVariable Long timeConsultationId) throws DataInconsistencyException, IllegalArgumentException {
+        List<ProfessionalResponse> professionals = professionalFacade.getAllProfesionalByTimeConsultationId(timeConsultationId);
+        ResponseEntity<List<ProfessionalResponse>> response;
+        if (isNull(professionals) || professionals.isEmpty()) {
+            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity<>(professionals, HttpStatus.OK);
+        }
+        return response;
     }
 
 
-    @ApiOperation(value = "Obtener listado de Medicos Profesionales por tiempo de Consulta", notes = "Este metodo permite obtener un listado de Medicos Profesionales por tiempo de Consulta")
-    @GetMapping(value = TIME_CONSULTATION_ID)
-    public ResponseEntity<List<ProfessionalDTO>> getAllProfesionalByTimeConsultationId(@PathVariable Long timeConsultationId) {
-        List<ProfessionalDTO> professionals = professionalFacade.getAllProfesionalByTimeConsultationId(timeConsultationId);
-        return new ResponseEntity<>(professionals, HttpStatus.OK);
+    @ApiOperation(value = "Se actualiza los dias laborales para un Professional", notes = "Este metodo permite actualizar los dias laborales para un Professional")
+    @PostMapping(value = UPDATE_WORKING_DAYS, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addWorkingDaysToProfessional(@PathVariable Long professionalId, @RequestBody List<Long> workingDayIds) throws NonExistingResourceException {
+        professionalFacade.addWorkingDaysToProfessional(professionalId, workingDayIds);
+        return new ResponseEntity<>("WorkingDays added to Professional successfully", HttpStatus.CREATED);
     }
 
 
     @ApiOperation(value = "Obtener listado de Medicos Profesionales por dia laboral", notes = "Este metodo permite obtener un listado de Medicos Profesionales por dia laboral")
-    @GetMapping(value = WORKING_DAY_ID)
-    public ResponseEntity<List<ProfessionalDTO>> getAllProfessionalIdByWorkingdayId(@PathVariable Long workingDayId) {
-        List<ProfessionalDTO> professionals = professionalFacade.getAllProfessionalIdByWorkingdayId(workingDayId);
-        return new ResponseEntity<>(professionals, HttpStatus.OK);
+    @GetMapping(value = WORKING_DAY_ID, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProfessionalResponse>> getAllProfessionalIdByWorkingdayId(@PathVariable Long workingDayId) throws DataInconsistencyException, IllegalArgumentException, NonExistingResourceException {
+        List<ProfessionalResponse> professionals = professionalFacade.getAllProfessionalIdByWorkingdayId(workingDayId);
+        ResponseEntity<List<ProfessionalResponse>> response;
+        if (isNull(professionals) || professionals.isEmpty()) {
+            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity<>(professionals, HttpStatus.OK);
+        }
+        return response;
     }
 
 
     @ApiOperation(value = "Actualizacion de una especializacion", notes = "Este metodo permite actualizar el tiempo de consulta de una consulta medica")
     @PutMapping(value = UPDATE_TIME_CONSULTATION)
-    public ResponseEntity<String> updateTimeConsultation(@PathVariable Long professionalId, @PathVariable Long timeConsultationId) {
-        professionalFacade.updateTimeConsultation(professionalId, timeConsultationId);
-        return new ResponseEntity<>("TimeConsultation updated with success", HttpStatus.OK);
+    public ResponseEntity<Void> updateTimeConsultationForProfessional(@PathVariable Long professionalId, @PathVariable Long timeConsultationId) throws NonExistingResourceException, IllegalArgumentException, DataInconsistencyException {
+        professionalFacade.updateTimeConsultationForProfessional(professionalId, timeConsultationId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
     @ApiOperation(value = "Actualizacion de especialidad medica por Medico Profesional", notes = "Este metodo permite actualizar de especialidad medica por Medico Profesional")
     @PutMapping(value = UPDATE_SPECIALIZATION)
-    public ResponseEntity<String> updateSpecialization(@PathVariable Long professionalId, @PathVariable Long timeConsultationId) {
-        professionalFacade.updateSpecialization(professionalId, timeConsultationId);
-        return new ResponseEntity<>("Specialization updated with success", HttpStatus.OK);
-    }
-
-
-    @ApiOperation(value = "Creacion de horario para un Profesional que es dado de alta", notes = "Este metodo permite crear el horario para un Profesional que es dado de alta")
-    @PostMapping(value = CREATE_SCHEDULES_FOR_PROFESSIONAL)
-    public ResponseEntity<String> createSchedulesForProfessional(@PathVariable Long professionalId, @RequestBody String registrationProfessionalDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime dateTime = LocalDateTime.parse(registrationProfessionalDate, formatter);
-        professionalFacade.createSchedulesForProfessional(professionalId, dateTime);
-        return new ResponseEntity<>("Schedules created with success", HttpStatus.CREATED);
+    public ResponseEntity<Void> updateSpecializationForProfessional(@PathVariable Long professionalId, @PathVariable Long specializationId) throws NonExistingResourceException, DataInconsistencyException, IllegalArgumentException {
+        professionalFacade.updateSpecializationForProfessional(professionalId, specializationId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

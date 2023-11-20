@@ -1,15 +1,17 @@
 package com.medical.business.service;
 
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
 import com.medical.domain.model.User;
 
 public interface UserService {
 
-    User getUserById(Long UserId) throws Exception;
+    User findById(Long UserId) throws NonExistingResourceException;
 
-    User createUser(User user);
+    User create(User user) throws IllegalArgumentException;
 
-    User updateUser(User user) throws Exception;
+    User update(User user) throws NonExistingResourceException, IllegalArgumentException;
 
-    void deleteUser(Long UserId) throws Exception;
+    void delete(Long UserId) throws NonExistingResourceException;
 
 }

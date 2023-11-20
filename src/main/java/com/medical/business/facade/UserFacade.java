@@ -1,16 +1,18 @@
 package com.medical.business.facade;
 
-import com.medical.domain.dto.UserDTO;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.UserResponse;
 import com.medical.domain.dto.request.UserRequest;
 
 public interface UserFacade {
 
-    UserDTO getUserById(Long UserId) throws Exception;
+    UserResponse findById(Long UserId) throws NonExistingResourceException;
 
-    UserDTO createUser(UserRequest request);
+    UserResponse create(UserRequest request) throws IllegalArgumentException;
 
-    UserDTO updateUser(UserRequest request, Long userId) throws Exception;
+    UserResponse update(UserRequest request, Long userId) throws NonExistingResourceException, IllegalArgumentException;
 
-    void deleteUser(Long UserId) throws Exception;
+    void delete(Long UserId) throws NonExistingResourceException;
 
 }

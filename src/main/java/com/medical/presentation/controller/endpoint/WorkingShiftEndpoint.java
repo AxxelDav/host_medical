@@ -2,7 +2,7 @@ package com.medical.presentation.controller.endpoint;
 
 public interface WorkingShiftEndpoint {
 
-    String BASE = "/workshift";
+    String BASE = "/v1/workshift";
 
     String LOCALE = "locale";
     String STREET_NUMBER = "streetNumber";

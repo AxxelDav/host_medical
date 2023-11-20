@@ -3,6 +3,7 @@ package com.medical.persistence;
 import com.medical.domain.model.Specialization;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,9 +13,9 @@ public interface SpecializationRepository extends JpaRepository<Specialization, 
 
     @Query(value = "SELECT * FROM " +
                    "ESPECIALIDAD WHERE DESCRIPCION= :specialization", nativeQuery = true)
-    public Specialization findSpecializationByDescripcion(String specialization);
+    public Specialization findSpecializationByDescripcion(@Param("specialization") String specialization);
 
     @Query(value = "SELECT e.ESPECIALIDAD_ID, e.DESCRIPCION FROM ESPECIALIDAD e WHERE MODALIDAD_ID = :modalityId", nativeQuery = true)
-    public List<Specialization> findAllSpecializationByModality(Long modalityId);
+    public List<Specialization> findAllSpecializationByModality(@Param("modalityId") Long modalityId);
 
 }

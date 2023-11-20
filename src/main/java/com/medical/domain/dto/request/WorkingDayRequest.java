@@ -9,5 +9,4 @@ import java.util.List;
 public class WorkingDayRequest {
 
     private String day;
-    private List<Professional> professionals;
 }

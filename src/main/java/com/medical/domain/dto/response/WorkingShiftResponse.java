@@ -1,9 +1,9 @@
-package com.medical.domain.dto;
+package com.medical.domain.dto.response;
 
 import lombok.Data;
 
 @Data
-public class WorkingShiftDTO {
+public class WorkingShiftResponse {
 
     private Long id;
     private String description;

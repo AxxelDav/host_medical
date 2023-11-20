@@ -4,7 +4,9 @@ import com.medical.business.facade.WorkingShiftFacade;
 import com.medical.business.mapper.WorkingShiftDtoMapper;
 import com.medical.business.mapper.WorkingShiftRequestMapper;
 import com.medical.business.service.WorkShiftService;
-import com.medical.domain.dto.WorkingShiftDTO;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.WorkingShiftResponse;
 import com.medical.domain.dto.request.WorkingShiftRequest;
 import com.medical.domain.model.WorkingShift;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,34 +28,35 @@ public class WorkingShiftFacadeImpl implements WorkingShiftFacade {
 
 
     @Override
-    public WorkingShiftDTO createWorkShift(WorkingShiftRequest request) {
-        WorkingShift workingShiftToCreate = workingShiftRequestMapper.toDomain(request);
-        WorkingShift workingShiftCreated = workShiftService.createWorkShift(workingShiftToCreate);
-        return workingShiftDtoMapper.toDto(workingShiftCreated);
-    }
-
-    @Override
-    public WorkingShiftDTO getWorkShift(Long id) throws Exception {
-        WorkingShift workingShift = workShiftService.getWorkShift(id);
+    public WorkingShiftResponse findById(Long workingShiftId) throws NonExistingResourceException {
+        WorkingShift workingShift = workShiftService.findById(workingShiftId);
         return workingShiftDtoMapper.toDto(workingShift);
     }
 
     @Override
-    public WorkingShiftDTO updateWorkShift(WorkingShiftRequest request, Long workingShiftId) throws Exception {
+    public WorkingShiftResponse create(WorkingShiftRequest request) throws IllegalArgumentException {
+        WorkingShift workingShiftToCreate = workingShiftRequestMapper.toDomain(request);
+        WorkingShift workingShiftCreated = workShiftService.create(workingShiftToCreate);
+        return workingShiftDtoMapper.toDto(workingShiftCreated);
+    }
+
+    @Override
+    public WorkingShiftResponse update(WorkingShiftRequest request, Long workingShiftId) throws NonExistingResourceException, IllegalArgumentException {
+        findById(workingShiftId);
         WorkingShift workingShiftToUpdate = workingShiftRequestMapper.toDomain(request);
         workingShiftToUpdate.setId(workingShiftId);
-        WorkingShift workingShiftUpdated = workShiftService.updateWorkShift(workingShiftToUpdate);
+        WorkingShift workingShiftUpdated = workShiftService.update(workingShiftToUpdate);
         return workingShiftDtoMapper.toDto(workingShiftUpdated);
     }
 
     @Override
-    public void deleteWorkShift(Long id) throws Exception {
-        workShiftService.deleteWorkShift(id);
+    public void delete(Long workingShiftId) throws NonExistingResourceException {
+        workShiftService.delete(workingShiftId);
     }
 
     @Override
-    public List<WorkingShiftDTO> getAllWorkingShift() {
-        List<WorkingShift> workingShifts = workShiftService.getAllWorkingShift();
+    public List<WorkingShiftResponse> getAll() {
+        List<WorkingShift> workingShifts = workShiftService.getAll();
         return workingShiftDtoMapper.toDto(workingShifts);
     }
 

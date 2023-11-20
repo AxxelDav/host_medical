@@ -1,9 +1,9 @@
-package com.medical.domain.dto;
+package com.medical.domain.dto.response;
 
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class UserResponse {
 
     private Long id;
     private String name;

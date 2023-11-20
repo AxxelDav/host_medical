@@ -1,14 +1,16 @@
 package com.medical.business.service;
 
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
 import com.medical.domain.model.TimeConsultation;
 
 public interface TimeConsultationService {
 
-    TimeConsultation createTimeConsultation(TimeConsultation timeConsultation);
+    TimeConsultation create(TimeConsultation timeConsultation) throws IllegalArgumentException;
 
-    TimeConsultation getTimeConsultation(Long id) throws Exception;
+    TimeConsultation findById(Long id) throws NonExistingResourceException;
 
-    TimeConsultation updateTimeConsultation(TimeConsultation timeConsultation) throws Exception;
+    TimeConsultation update(TimeConsultation timeConsultation) throws NonExistingResourceException, IllegalArgumentException;
 
-    void deleteTimeConsultation(Long id) throws Exception;
+    void delete(Long id) throws NonExistingResourceException;
 }

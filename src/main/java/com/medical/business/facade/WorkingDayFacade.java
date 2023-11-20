@@ -1,12 +1,13 @@
 package com.medical.business.facade;
 
-import com.medical.domain.dto.WorkingDayDTO;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.WorkingDayResponse;
 
 import java.util.List;
 
 public interface WorkingDayFacade {
 
-    WorkingDayDTO getWorkingDay(Long workingDayId) throws Exception;
+    WorkingDayResponse findById(Long workingDayId) throws NonExistingResourceException;
 
-    List<WorkingDayDTO> getAllWorkingDay();
+    List<WorkingDayResponse> getAll();
 }

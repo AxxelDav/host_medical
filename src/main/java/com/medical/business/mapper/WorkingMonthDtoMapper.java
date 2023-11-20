@@ -1,9 +1,7 @@
 package com.medical.business.mapper;
 
-import com.medical.domain.dto.WorkingMonthDTO;
-import com.medical.domain.dto.WorkingShiftDTO;
+import com.medical.domain.dto.response.WorkingMonthResponse;
 import com.medical.domain.model.WorkingMonth;
-import com.medical.domain.model.WorkingShift;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,12 +15,12 @@ public class WorkingMonthDtoMapper {
     @Autowired
     private ModelMapper modelMapper;
 
-    public WorkingMonthDTO toDto(WorkingMonth workingMonth) {
-        return modelMapper.map(workingMonth, WorkingMonthDTO.class);
+    public WorkingMonthResponse toDto(WorkingMonth workingMonth) {
+        return modelMapper.map(workingMonth, WorkingMonthResponse.class);
 
     }
 
-    public List<WorkingMonthDTO> toDto(List<WorkingMonth> workingMonths) {
+    public List<WorkingMonthResponse> toDto(List<WorkingMonth> workingMonths) {
         return workingMonths
                 .stream()
                 .map(workingMonth -> toDto(workingMonth))

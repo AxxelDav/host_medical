@@ -1,5 +1,6 @@
 package com.medical.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -33,15 +35,15 @@ public class Professional implements Serializable {
     @Column(name = "TELEFONO")
     private Integer phoneNumber;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "TURNO_LABORAL_ID")
     private WorkingShift workingShift;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "ESPECIALIDAD_ID")
     private Specialization specialization;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "DIA_LABORAL_POR_PROFESIONAL"
             , joinColumns = {@JoinColumn(name = "DIA_LABORAL_ID")}
             , inverseJoinColumns = {@JoinColumn(name = "PROFESIONAL_ID")})
@@ -50,14 +52,37 @@ public class Professional implements Serializable {
     @Column(name = "HORAS_TRABAJADAS_POR_DIA")
     private Integer hoursPerDay;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "TIEMPO_POR_CONSULTA_ID")
     private TimeConsultation timeConsultation;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "SUCURSAL_ID")
     private MedicalBranch medicalBranch;
 
+    @ManyToOne
+    @JoinColumn(name = "MODALIDAD_ID")
+    private Modality modality;
+
+
+
+    @Override
+    public String toString() {
+        return "Professional{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", identificationNumber=" + identificationNumber +
+                ", phoneNumber=" + phoneNumber +
+                ", workingShift=" + (workingShift != null ? workingShift.getId() : null) +
+                ", specialization=" + (specialization != null ? specialization.getId() : null) +
+                ", workingDays=" + workingDays.stream().map(WorkingDay::getId).toList() +
+                ", hoursPerDay=" + hoursPerDay +
+                ", timeConsultation=" + (timeConsultation != null ? timeConsultation.getId() : null) +
+                ", medicalBranch=" + (medicalBranch != null ? medicalBranch.getId() : null) +
+                ", modality=" + (modality != null ? modality.getId() : null) +
+                '}';
+    }
 
 
 }

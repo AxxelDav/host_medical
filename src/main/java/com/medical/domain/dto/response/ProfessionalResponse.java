@@ -1,4 +1,4 @@
-package com.medical.domain.dto;
+package com.medical.domain.dto.response;
 
 import com.medical.domain.model.*;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ProfessionalDTO {
+public class ProfessionalResponse {
 
     private Long id;
     private String name;
@@ -19,4 +19,5 @@ public class ProfessionalDTO {
     private Integer hoursPerDay;
     private TimeConsultation timeConsultation;
     private MedicalBranch medicalBranch;
+    private Modality modality;
 }

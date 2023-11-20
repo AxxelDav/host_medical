@@ -1,12 +1,12 @@
-package com.medical.domain.dto;
+package com.medical.domain.dto.response;
 
 import com.medical.domain.model.Modality;
 import lombok.Data;
 
 @Data
-public class SpecializationDTO {
+public class SpecializationResponse {
 
     private Long id;
-    private String desciption;
+    private String description;
     private Modality modality;
 }

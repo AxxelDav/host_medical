@@ -1,26 +1,31 @@
 package com.medical.business.facade;
 
-import com.medical.domain.dto.MedicalShiftDTO;
-import com.medical.domain.dto.SpecializationDTO;
+import com.medical.common.exception.DataInconsistencyException;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.MedicalShiftResponse;
+import com.medical.domain.dto.response.SpecializationResponse;
 import com.medical.domain.dto.request.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MedicalShiftFacade {
 
-    MedicalShiftDTO getMedicalShift(Long id) throws Exception;
+    MedicalShiftResponse findById(Long id) throws NonExistingResourceException;
 
-    void createSchedules(LocalDateTime registrationProfessionalDate, ProfessionalRequest request);
+    void createMedicalShiftForProfessional(Long professionalId, String registrationProfessionalDate) throws IllegalArgumentException, NonExistingResourceException;
 
-    void takeMedicalShift(Long medicalShiftId, UserRequest request) throws Exception;
+    void takeMedicalShift(Long medicalShiftId, Long userId) throws NonExistingResourceException, IllegalArgumentException;
 
-    void cancelMedicalShift(Long medicalShiftId) throws Exception;
+    void cancelMedicalShift(Long medicalShiftId) throws NonExistingResourceException;
 
-    List<MedicalShiftDTO> findAllForProfessionalBySpecialization(SpecializationRequest request);
+    List<MedicalShiftResponse> findAllMedicalShiftBySpecialization(String specialization) throws DataInconsistencyException, IllegalArgumentException;
 
-    List<SpecializationDTO> findAllSpecializationByModality(ModalityRequest request);
-
-    public List<MedicalShiftDTO> requestMedicalShift(SpecializationRequest specializationRequest, ProfessionalRequest professionalRequest, MedicalBranchRequest medicalBranchRequest, WorkingMonthRequest workingMonthRequest, List<WorkingDayRequest> workingDayRequests, WorkingShiftRequest workingShiftRequest) throws Exception;
+    List<MedicalShiftResponse> requestMedicalShift(Long specializationId,
+                                                   Long professionalId,
+                                                   Long medicalBranchId,
+                                                   Long workingMonthId,
+                                                   Long workingShiftId,
+                                                   List<Long> workingDayIds) throws DataInconsistencyException, IllegalArgumentException;
 
 }

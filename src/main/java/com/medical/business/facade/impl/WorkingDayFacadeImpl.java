@@ -4,7 +4,8 @@ import com.medical.business.facade.WorkingDayFacade;
 import com.medical.business.mapper.WorkingDayDtoMapper;
 import com.medical.business.mapper.WorkingDayRequestMapper;
 import com.medical.business.service.WorkingDayService;
-import com.medical.domain.dto.WorkingDayDTO;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.WorkingDayResponse;
 import com.medical.domain.model.WorkingDay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,14 +26,14 @@ public class WorkingDayFacadeImpl implements WorkingDayFacade {
 
 
     @Override
-    public WorkingDayDTO getWorkingDay(Long workingDayId) throws Exception {
-        WorkingDay workingDay = workDayService.getWorkingDay(workingDayId);
+    public WorkingDayResponse findById(Long workingDayId) throws NonExistingResourceException {
+        WorkingDay workingDay = workDayService.findById(workingDayId);
         return workingDayDtoMapper.toDto(workingDay);
     }
 
     @Override
-    public List<WorkingDayDTO> getAllWorkingDay() {
-        List<WorkingDay> workingDays = workDayService.getAllWorkingDay();
+    public List<WorkingDayResponse> getAll() {
+        List<WorkingDay> workingDays = workDayService.getAll();
         return workingDayDtoMapper.toDto(workingDays);
     }
 }

@@ -1,6 +1,6 @@
 package com.medical.business.mapper;
 
-import com.medical.domain.dto.WorkingDayDTO;
+import com.medical.domain.dto.response.WorkingDayResponse;
 import com.medical.domain.model.WorkingDay;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,12 @@ public class WorkingDayDtoMapper {
     @Autowired
     private ModelMapper modelMapper;
 
-    public WorkingDayDTO toDto(WorkingDay workingDay) {
-        return modelMapper.map(workingDay, WorkingDayDTO.class);
+    public WorkingDayResponse toDto(WorkingDay workingDay) {
+        return modelMapper.map(workingDay, WorkingDayResponse.class);
 
     }
 
-    public List<WorkingDayDTO> toDto(List<WorkingDay> workingDays) {
+    public List<WorkingDayResponse> toDto(List<WorkingDay> workingDays) {
         return workingDays
                 .stream()
                 .map(workingDay -> toDto(workingDay))

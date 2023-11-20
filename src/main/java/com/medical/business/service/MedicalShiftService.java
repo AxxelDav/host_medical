@@ -1,23 +1,28 @@
 package com.medical.business.service;
 
+import com.medical.common.exception.DataInconsistencyException;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
 import com.medical.domain.model.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MedicalShiftService {
 
-    MedicalShift getMedicalShift(Long id) throws Exception;
+    MedicalShift getMedicalShift(Long id) throws NonExistingResourceException;
 
-    void createSchedules(LocalDateTime registrationProfessionalDate, Professional professional);
+    void createMedicalShiftForProfessional(Long professionalId, String registrationProfessionalDate) throws IllegalArgumentException, NonExistingResourceException;
 
-    void takeMedicalShift(Long medicalShiftId, User user) throws Exception;
+    void takeMedicalShift(Long medicalShiftId, Long userId) throws NonExistingResourceException, IllegalArgumentException;
 
-    void cancelMedicalShift(Long medicalShiftId) throws Exception;
+    void cancelMedicalShift(Long medicalShiftId) throws NonExistingResourceException;
 
-    List<MedicalShift> findAllForProfessionalBySpecialization(Specialization specialization);
+    List<MedicalShift> findAllMedicalShiftBySpecialization(String specialization) throws DataInconsistencyException, IllegalArgumentException;
 
-    List<Specialization> findAllSpecializationByModality(Modality modality);
-
-    public List<MedicalShift> requestMedicalShift(Specialization specialization, Professional professional, MedicalBranch medicalBranch, WorkingMonth workingMonth, List<WorkingDay> workingDays, WorkingShift workingShift) throws Exception;
+    public List<MedicalShift> requestMedicalShift(Long specializationId,
+                                                  Long professionalId,
+                                                  Long medicalBranchId,
+                                                  Long workingMonthId,
+                                                  Long workingShiftId,
+                                                  List<Long> workingDayIds) throws DataInconsistencyException, IllegalArgumentException;
 }

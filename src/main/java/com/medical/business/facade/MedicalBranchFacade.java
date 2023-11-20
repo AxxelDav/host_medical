@@ -1,21 +1,24 @@
 package com.medical.business.facade;
 
-import com.medical.domain.dto.MedicalBranchDTO;
+import com.medical.common.exception.DataInconsistencyException;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.MedicalBranchResponse;
 import com.medical.domain.dto.request.MedicalBranchRequest;
 
 import java.util.List;
 
 public interface MedicalBranchFacade {
 
-    MedicalBranchDTO createMedicalBranch(MedicalBranchRequest request);
+    MedicalBranchResponse create(MedicalBranchRequest request) throws IllegalArgumentException;
 
-    MedicalBranchDTO getMedicalBranch(Long id) throws Exception;
+    MedicalBranchResponse findById(Long id) throws NonExistingResourceException;
 
-    MedicalBranchDTO updateMedicalBranch(MedicalBranchRequest request, Long medicalBranchId) throws Exception;
+    MedicalBranchResponse update(MedicalBranchRequest request, Long medicalBranchId) throws NonExistingResourceException, IllegalArgumentException;
 
-    void deleteMedicalBranch(Long id) throws Exception;
+    void deleteById(Long id) throws NonExistingResourceException;
 
-    MedicalBranchDTO findByLocaleAndNumberAndStreet(String locale, String streetNumber, String street);
+    MedicalBranchResponse findByLocaleAndNumberAndStreet(String locale, String streetNumber, String street) throws DataInconsistencyException, IllegalArgumentException;
 
-    List<MedicalBranchDTO> findMedicalBranchBySpecializationAndProfessional(Long specializationId, Long professionalId);
+    List<MedicalBranchResponse> findMedicalBranchBySpecializationAndProfessional(Long specializationId, Long professionalId) throws DataInconsistencyException, IllegalArgumentException;
 }

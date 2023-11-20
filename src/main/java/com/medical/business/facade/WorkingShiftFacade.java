@@ -1,19 +1,21 @@
 package com.medical.business.facade;
 
-import com.medical.domain.dto.WorkingShiftDTO;
+import com.medical.common.exception.IllegalArgumentException;
+import com.medical.common.exception.NonExistingResourceException;
+import com.medical.domain.dto.response.WorkingShiftResponse;
 import com.medical.domain.dto.request.WorkingShiftRequest;
 
 import java.util.List;
 
 public interface WorkingShiftFacade {
 
-    WorkingShiftDTO createWorkShift(WorkingShiftRequest request);
+    WorkingShiftResponse findById(Long id) throws NonExistingResourceException;
 
-    WorkingShiftDTO getWorkShift(Long id) throws Exception;
+    WorkingShiftResponse create(WorkingShiftRequest request) throws IllegalArgumentException;
 
-    WorkingShiftDTO updateWorkShift(WorkingShiftRequest request, Long workingShiftId) throws Exception;
+    WorkingShiftResponse update(WorkingShiftRequest request, Long workingShiftId) throws NonExistingResourceException, IllegalArgumentException;
 
-    void deleteWorkShift(Long id) throws Exception;
+    void delete(Long id) throws NonExistingResourceException;
 
-    List<WorkingShiftDTO> getAllWorkingShift();
+    List<WorkingShiftResponse> getAll();
 }

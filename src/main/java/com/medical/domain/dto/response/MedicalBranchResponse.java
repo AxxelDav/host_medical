@@ -1,9 +1,9 @@
-package com.medical.domain.dto;
+package com.medical.domain.dto.response;
 
 import lombok.Data;
 
 @Data
-public class MedicalBranchDTO {
+public class MedicalBranchResponse {
 
     private Long id;
     private String street;

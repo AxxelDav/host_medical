@@ -20,27 +20,27 @@ import java.util.List;
 @EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig {
-
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-
-    private ApiKey apiKeys() {
-        return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
-    }
-
-    private List<SecurityContext> securityContexts() {
-        return Arrays.asList(SecurityContext.builder().securityReferences(sf()).build());
-    }
-
-    private List<SecurityReference> sf() {
-        AuthorizationScope scope = new AuthorizationScope("global", "accessEveryThing");
-        return Arrays.asList(new SecurityReference("JWT", new AuthorizationScope[] { scope }));
-    }
+    /***    WITH SPRING-SECURITY   ***/
+//    public static final String AUTHORIZATION_HEADER = "Authorization";
+//
+//    private ApiKey apiKeys() {
+//        return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
+//    }
+//
+//    private List<SecurityContext> securityContexts() {
+//        return Arrays.asList(SecurityContext.builder().securityReferences(sf()).build());
+//    }
+//
+//    private List<SecurityReference> sf() {
+//        AuthorizationScope scope = new AuthorizationScope("global", "accessEveryThing");
+//        return Arrays.asList(new SecurityReference("JWT", new AuthorizationScope[] { scope }));
+//    }
 
     @Bean
     public Docket apiDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .securityContexts(securityContexts())
-                .securitySchemes(Arrays.asList(apiKeys()))
+                //.securityContexts(securityContexts())
+                //.securitySchemes(Arrays.asList(apiKeys()))
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
