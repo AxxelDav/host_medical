@@ -32,12 +32,11 @@ public class ModalityServiceImpl implements ModalityService {
     }
 
     @Override
-    public void update(Modality modality) throws IllegalArgumentException, NonExistingResourceException {
+    public Modality update(Modality modality) throws IllegalArgumentException, NonExistingResourceException {
         if (Objects.isNull(modality)) {
             throw new IllegalArgumentException("Error: with MODALIDAD", "MODALIDAD can´t be null");
         }
-        getById(modality.getId());
-        modalityRepository.save(modality);
+        return modalityRepository.save(modality);
     }
 
 

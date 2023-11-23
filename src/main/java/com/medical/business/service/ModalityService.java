@@ -10,7 +10,7 @@ public interface ModalityService {
 
     Modality create(Modality modality) throws IllegalArgumentException;
 
-    void update(Modality modality) throws IllegalArgumentException, NonExistingResourceException;
+    Modality update(Modality modality) throws IllegalArgumentException, NonExistingResourceException;
 
     void delete(Long modalityId) throws NonExistingResourceException;
 }

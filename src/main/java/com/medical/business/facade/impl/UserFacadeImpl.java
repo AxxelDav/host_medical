@@ -25,7 +25,6 @@ public class UserFacadeImpl implements UserFacade {
     private UserService userService;
 
 
-
     @Override
     public UserResponse findById(Long userId) throws NonExistingResourceException {
         User user = userService.findById(userId);
