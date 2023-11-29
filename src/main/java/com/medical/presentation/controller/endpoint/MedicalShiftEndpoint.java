@@ -11,11 +11,11 @@ public interface MedicalShiftEndpoint {
     String WORKING_MONTH_ID = "/{workingMonthId}";
     String WORKING_SHIFT_ID = "/{workingShiftId}";
     String ALL_MEDICAL_SHIFT_BY_SPECIALIZATION = "/specialization/";
-    String USER_ID = "/{userId}";
+    String PATIENT_ID = "/{patientId}";
     String REGISTRATION_PROFESSIONAL_DATE = "/{registrationProfessionalDate}";
     String PROFESSIONALS = "/professionals";
     String SPECIALIZATIONS = "/specializations";
     String REQUEST_MEDICAL_SHIFT = ESPECIALIZATION_ID + PROFESSIONAL_ID + MEDICAL_BRANCH_ID + WORKING_MONTH_ID + WORKING_SHIFT_ID;
-    String TAKE_MEDICAL_SHIFT = MEDICAL_SHIFT_ID + USER_ID;
+    String TAKE_MEDICAL_SHIFT = MEDICAL_SHIFT_ID + PATIENT_ID;
 
 }

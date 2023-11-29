@@ -1,7 +1,7 @@
 package com.medical.business.mapper;
 
-import com.medical.domain.dto.response.UserResponse;
-import com.medical.domain.model.User;
+import com.medical.domain.dto.response.PatientResponse;
+import com.medical.domain.model.Patient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,20 +10,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class UserDtoMapper {
+public class PatientDtoMapper {
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public UserResponse toDto(User user) {
-        return modelMapper.map(user, UserResponse.class);
+    public PatientResponse toDto(Patient patient) {
+        return modelMapper.map(patient, PatientResponse.class);
 
     }
 
-    public List<UserResponse> toDto(List<User> users) {
-        return users
+    public List<PatientResponse> toDto(List<Patient> patients) {
+        return patients
                 .stream()
-                .map(user -> toDto(user))
+                .map(patient -> toDto(patient))
                 .collect(Collectors.toList());
     }
 

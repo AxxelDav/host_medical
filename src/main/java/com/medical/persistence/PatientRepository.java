@@ -1,9 +1,9 @@
 package com.medical.persistence;
 
-import com.medical.domain.model.User;
+import com.medical.domain.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface PatientRepository extends JpaRepository<Patient, Long> {
 }

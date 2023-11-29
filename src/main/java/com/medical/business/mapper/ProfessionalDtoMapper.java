@@ -23,7 +23,7 @@ public class ProfessionalDtoMapper {
     public List<ProfessionalResponse> toDto(List<Professional> professionals) {
         return professionals
                 .stream()
-                .map(user -> toDto(user))
+                .map(professional -> toDto(professional))
                 .collect(Collectors.toList());
     }
 

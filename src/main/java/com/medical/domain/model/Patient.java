@@ -12,12 +12,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "USUARIO")
-public class User implements Serializable {
+@Table(name = "PACIENTE")
+public class Patient implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USUARIO_ID", nullable = false)
+    @Column(name = "PACIENTE_ID", nullable = false)
     private Long id;
 
     @Column(name = "NOMBRE")

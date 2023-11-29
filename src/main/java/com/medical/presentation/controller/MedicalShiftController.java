@@ -43,8 +43,8 @@ public class MedicalShiftController implements MedicalShiftEndpoint {
 
     @ApiOperation(value = "Toma un Turno Medico por parte de un paciente", notes = "Este metodo permite tomar Turno Medico por parte de un paciente, actualizando la disponibilidad del turno")
     @PutMapping(value = TAKE_MEDICAL_SHIFT)
-    public ResponseEntity<Void> takeMedicalShift(@PathVariable Long medicalShiftId, @PathVariable Long userId) throws NonExistingResourceException, IllegalArgumentException {
-        medicalShiftFacade.takeMedicalShift(medicalShiftId, userId);
+    public ResponseEntity<Void> takeMedicalShift(@PathVariable Long medicalShiftId, @PathVariable Long patientId) throws NonExistingResourceException, IllegalArgumentException {
+        medicalShiftFacade.takeMedicalShift(medicalShiftId, patientId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

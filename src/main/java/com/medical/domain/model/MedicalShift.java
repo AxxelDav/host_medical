@@ -27,7 +27,7 @@ public class MedicalShift implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "USUARIO_ID", nullable = true)
-    private User user;
+    private Patient patient;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PROFESIONAL_ID")

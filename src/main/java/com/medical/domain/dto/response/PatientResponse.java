@@ -1,10 +1,11 @@
-package com.medical.domain.dto.request;
+package com.medical.domain.dto.response;
 
 import lombok.Data;
 
 @Data
-public class UserRequest {
+public class PatientResponse {
 
+    private Long id;
     private String name;
     private String lastName;
     private Integer identificationNumber;

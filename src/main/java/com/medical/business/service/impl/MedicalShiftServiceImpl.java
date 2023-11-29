@@ -2,23 +2,20 @@ package com.medical.business.service.impl;
 
 import com.medical.business.service.MedicalShiftService;
 import com.medical.business.service.ProfessionalService;
-import com.medical.business.service.UserService;
+import com.medical.business.service.PatientService;
 import com.medical.business.service.WorkingDayService;
 import com.medical.common.exception.DataInconsistencyException;
 import com.medical.common.exception.IllegalArgumentException;
 import com.medical.common.exception.NonExistingResourceException;
 import com.medical.domain.model.*;
 import com.medical.persistence.MedicalShiftRepository;
-import com.medical.persistence.ProfessionalRepository;
 import com.medical.persistence.SpecializationRepository;
-import org.apache.logging.log4j.spi.LoggerRegistry;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -38,14 +35,14 @@ public class MedicalShiftServiceImpl implements MedicalShiftService {
     private SpecializationRepository specializationRepository;
     private ProfessionalService professionalService;
     private WorkingDayService workingDayService;
-    private UserService userService;
+    private PatientService patientService;
 
-    public MedicalShiftServiceImpl(MedicalShiftRepository medicalShiftRepository, SpecializationRepository specializationRepository, ProfessionalService professionalService, WorkingDayService workingDayService, UserService userService) {
+    public MedicalShiftServiceImpl(MedicalShiftRepository medicalShiftRepository, SpecializationRepository specializationRepository, ProfessionalService professionalService, WorkingDayService workingDayService, PatientService patientService) {
         this.medicalShiftRepository = medicalShiftRepository;
         this.specializationRepository = specializationRepository;
         this.professionalService = professionalService;
         this.workingDayService = workingDayService;
-        this.userService = userService;
+        this.patientService = patientService;
     }
 
 
@@ -135,10 +132,10 @@ public class MedicalShiftServiceImpl implements MedicalShiftService {
 
 
     @Override
-    public void takeMedicalShift(Long medicalShiftId, Long userId) throws NonExistingResourceException, IllegalArgumentException {
-        User user = userService.findById(userId);
+    public void takeMedicalShift(Long medicalShiftId, Long patientId) throws NonExistingResourceException, IllegalArgumentException {
+        Patient patient = patientService.findById(patientId);
         MedicalShift medicalShift = getMedicalShift(medicalShiftId);
-        medicalShift.setUser(user);
+        medicalShift.setPatient(patient);
         medicalShift.setAvailable("NO");
         medicalShiftRepository.save(medicalShift);
     }
@@ -148,7 +145,7 @@ public class MedicalShiftServiceImpl implements MedicalShiftService {
     public void cancelMedicalShift(Long medicalShiftId) throws NonExistingResourceException {
         MedicalShift medicalShift = getMedicalShift(medicalShiftId);
         medicalShift.setAvailable("SI");
-        medicalShift.setUser(null);
+        medicalShift.setPatient(null);
         medicalShiftRepository.save(medicalShift);
     }
 

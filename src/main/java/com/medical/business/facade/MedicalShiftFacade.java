@@ -15,7 +15,7 @@ public interface MedicalShiftFacade {
 
     void createMedicalShiftForProfessional(Long professionalId, String registrationProfessionalDate) throws IllegalArgumentException, NonExistingResourceException;
 
-    void takeMedicalShift(Long medicalShiftId, Long userId) throws NonExistingResourceException, IllegalArgumentException;
+    void takeMedicalShift(Long medicalShiftId, Long patientId) throws NonExistingResourceException, IllegalArgumentException;
 
     void cancelMedicalShift(Long medicalShiftId) throws NonExistingResourceException;
 

@@ -1,9 +1,7 @@
 package com.medical.business.mapper;
 
 import com.medical.domain.dto.request.MedicalShiftRequest;
-import com.medical.domain.dto.request.UserRequest;
 import com.medical.domain.model.MedicalShift;
-import com.medical.domain.model.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

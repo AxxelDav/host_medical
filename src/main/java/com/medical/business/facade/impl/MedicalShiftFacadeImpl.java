@@ -9,8 +9,6 @@ import com.medical.common.exception.DataInconsistencyException;
 import com.medical.common.exception.IllegalArgumentException;
 import com.medical.common.exception.NonExistingResourceException;
 import com.medical.domain.dto.response.MedicalShiftResponse;
-import com.medical.domain.dto.response.SpecializationResponse;
-import com.medical.domain.dto.request.*;
 import com.medical.domain.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +29,7 @@ public class MedicalShiftFacadeImpl implements MedicalShiftFacade {
     @Autowired
     private ProfessionalRequestMapper professionalRequestMapper;
     @Autowired
-    private UserRequestMapper userRequestMapper;
+    private PatientRequestMapper patientRequestMapper;
     @Autowired
     private SpecializationRequestMapper specializationRequestMapper;
     @Autowired
@@ -64,8 +62,8 @@ public class MedicalShiftFacadeImpl implements MedicalShiftFacade {
     }
 
     @Override
-    public void takeMedicalShift(Long medicalShiftId, Long userId) throws NonExistingResourceException, IllegalArgumentException {
-        medicalShiftService.takeMedicalShift(medicalShiftId, userId);
+    public void takeMedicalShift(Long medicalShiftId, Long patientId) throws NonExistingResourceException, IllegalArgumentException {
+        medicalShiftService.takeMedicalShift(medicalShiftId, patientId);
     }
 
     @Override

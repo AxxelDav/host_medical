@@ -23,7 +23,7 @@ public class SpecializationDtoMapper {
     public List<SpecializationResponse> toDto(List<Specialization> specializations) {
         return specializations
                 .stream()
-                .map(user -> toDto(user))
+                .map(specialization -> toDto(specialization))
                 .collect(Collectors.toList());
     }
 
