@@ -10,5 +10,5 @@ public class WorkingDayResponse {
 
     private Long id;
     private String day;
-    private List<Professional> professionals;
+    private List<ProfessionalResponse> professionals;
 }

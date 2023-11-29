@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 public class MedicalShiftResponse {
 
     private Long id;
-    private MedicalBranch medicalBranch;
-    private Patient patient;
-    private Professional professional;
+    private MedicalBranchResponse medicalBranch;
+    private PatientResponse patient;
+    private ProfessionalResponse professional;
     private LocalDateTime ShiftDate;
     private String available;
     private String modality;

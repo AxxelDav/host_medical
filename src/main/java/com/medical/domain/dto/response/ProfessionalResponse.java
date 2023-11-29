@@ -13,11 +13,11 @@ public class ProfessionalResponse {
     private String lastName;
     private Integer identificationNumber;
     private Integer phoneNumber;
-    private WorkingShift workingShift;
-    private Specialization specialization;
-    private List<WorkingDay> workingDays;
+    private WorkingShiftResponse workingShift;
+    private SpecializationResponse specialization;
+    private List<WorkingDayResponse> workingDays;
     private Integer hoursPerDay;
-    private TimeConsultation timeConsultation;
-    private MedicalBranch medicalBranch;
-    private Modality modality;
+    private TimeConsultationResponse timeConsultation;
+    private MedicalBranchResponse medicalBranch;
+    private ModalityResponse modality;
 }

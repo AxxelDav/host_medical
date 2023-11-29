@@ -8,5 +8,5 @@ public class SpecializationResponse {
 
     private Long id;
     private String description;
-    private Modality modality;
+    private ModalityResponse modality;
 }
