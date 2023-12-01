@@ -3,6 +3,7 @@ package com.medical.business.facade.impl;
 import com.medical.business.facade.MedicalBranchFacade;
 import com.medical.business.mapper.MedicalBranchDtoMapper;
 import com.medical.business.mapper.MedicalBranchRequestMapper;
+import com.medical.business.mapper.ProfessionalDtoMapper;
 import com.medical.business.service.MedicalBranchService;
 import com.medical.common.exception.DataInconsistencyException;
 import com.medical.common.exception.IllegalArgumentException;
@@ -26,6 +27,9 @@ public class MedicalBranchFacadeImpl implements MedicalBranchFacade {
 
     @Autowired
     private MedicalBranchRequestMapper medicalBranchRequestMapper;
+
+    @Autowired
+    private ProfessionalDtoMapper professionalDtoMapper;
 
 
 
@@ -63,8 +67,16 @@ public class MedicalBranchFacadeImpl implements MedicalBranchFacade {
     }
 
     @Override
-    public List<MedicalBranchResponse> findMedicalBranchBySpecializationAndProfessional(Long specializationId) throws DataInconsistencyException, IllegalArgumentException {
-        List<MedicalBranch> medicalBranches = medicalBranchService.findMedicalBranchBySpecializationAndProfessional(specializationId);
+    public List<MedicalBranchResponse> findMedicalBranchBySpecialization(Long specializationId) throws DataInconsistencyException, IllegalArgumentException {
+        List<MedicalBranch> medicalBranches = medicalBranchService.findMedicalBranchBySpecialization(specializationId);
         return medicalBranchDtoMapper.toDto(medicalBranches);
     }
+
+    @Override
+    public List<MedicalBranchResponse> findMedicalBranchByProfessional(Long professionalId) throws DataInconsistencyException, IllegalArgumentException {
+        List<MedicalBranch> medicalBranches = medicalBranchService.findMedicalBranchByProfessional(professionalId);
+        return medicalBranchDtoMapper.toDto(medicalBranches);
+    }
+
+
 }

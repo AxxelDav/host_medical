@@ -63,15 +63,28 @@ public class MedicalBranchServiceImpl implements MedicalBranchService {
     }
 
     @Override
-    public List<MedicalBranch> findMedicalBranchBySpecializationAndProfessional(Long specializationId) throws IllegalArgumentException, DataInconsistencyException {
+    public List<MedicalBranch> findMedicalBranchBySpecialization(Long specializationId) throws IllegalArgumentException, DataInconsistencyException {
         if (Objects.isNull(specializationId)) {
             throw new IllegalArgumentException("Error specializationId can´t be null", "specializationId can´t be null");
         }
         try {
-            return medicalBranchRepository.findMedicalBranchBySpecializationAndProfessional(specializationId);
+            return medicalBranchRepository.findMedicalBranchBySpecialization(specializationId);
         } catch (DataAccessException ex) {
             throw new DataInconsistencyException("Error executing query in database", ex);
         }
     }
+
+    @Override
+    public List<MedicalBranch> findMedicalBranchByProfessional(Long professionalId) throws IllegalArgumentException, DataInconsistencyException {
+        if (Objects.isNull(professionalId)) {
+            throw new IllegalArgumentException("Error professionalId can´t be null", "professionalId can´t be null");
+        }
+        try {
+            return medicalBranchRepository.findMedicalBranchByProfessional(professionalId);
+        } catch (DataAccessException ex) {
+            throw new DataInconsistencyException("Error executing query in database", ex);
+        }
+    }
+
 
 }

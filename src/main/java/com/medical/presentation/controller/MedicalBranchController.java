@@ -70,10 +70,23 @@ public class MedicalBranchController implements MedicalBranchEndpoint {
     }
 
 
-    @ApiOperation(value = "Regresa una Sucursal/Medical_Branch por Especializacion", notes = "Este metodo permite obtener una sucursal por Especializacion")
-    @GetMapping(path = MedicalBranchEndpoint.FIND_MEDICAL_BRANCH_BY_SPECIALIZATION_AND_PROFESSIONAL, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Regresa una Sucursal/Medical_Branch por Especializacion", notes = "Este metodo permite obtener una/s sucursal/es por Especializacion")
+    @GetMapping(path = MedicalBranchEndpoint.FIND_MEDICAL_BRANCH_BY_SPECIALIZATION, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MedicalBranchResponse>> findMedicalBranchBySpecialization(@PathVariable("specializationId") Long specializationId) throws Exception {
-        List<MedicalBranchResponse> medicalBranches = medicalBranchFacade.findMedicalBranchBySpecializationAndProfessional(specializationId);
+        List<MedicalBranchResponse> medicalBranches = medicalBranchFacade.findMedicalBranchBySpecialization(specializationId);
+        ResponseEntity<List<MedicalBranchResponse>> response;
+        if (isNull(medicalBranches) || medicalBranches.isEmpty()) {
+            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            response = new ResponseEntity<>(medicalBranches, HttpStatus.OK);
+        }
+        return response;
+    }
+
+    @ApiOperation(value = "Regresa una Sucursal/Medical_Branch por Professional", notes = "Este metodo permite obtener una/s sucursal/es por Professional")
+    @GetMapping(path = MedicalBranchEndpoint.FIND_MEDICAL_BRANCH_BY_PROFESSIONAL, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MedicalBranchResponse>> findMedicalBranchByProfessional(@PathVariable("professionalId") Long professionalId) throws Exception {
+        List<MedicalBranchResponse> medicalBranches = medicalBranchFacade.findMedicalBranchByProfessional(professionalId);
         ResponseEntity<List<MedicalBranchResponse>> response;
         if (isNull(medicalBranches) || medicalBranches.isEmpty()) {
             response = new ResponseEntity<>(HttpStatus.NO_CONTENT);

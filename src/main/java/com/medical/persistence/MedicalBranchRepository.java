@@ -23,6 +23,14 @@ public interface MedicalBranchRepository extends JpaRepository<MedicalBranch, Lo
             "INNER JOIN PROFESSIONAL p ON s.SUCURSAL_ID = p.SUCURSAL_ID " +
             "INNER JOIN ESPECIALIDAD e ON p.ESPECIALIDAD_ID = e.ESPECIALIDAD_ID " +
             "WHERE e.ESPECIALIDAD_ID = :specializationId", nativeQuery = true)
-    public List<MedicalBranch> findMedicalBranchBySpecializationAndProfessional(@Param("specializationId") Long specializationId);
+    public List<MedicalBranch> findMedicalBranchBySpecialization(@Param("specializationId") Long specializationId);
+
+
+    @Query(value = "SELECT s.SUCURSAL_ID, s.LOCALIDAD, s.NUMERO, s.CALLE " +
+            "FROM SUCURSAL s " +
+            "INNER JOIN PROFESSIONAL p ON s.SUCURSAL_ID = p.SUCURSAL_ID " +
+            "WHERE p.PROFESIONAL_ID = :professionalId", nativeQuery = true)
+    public List<MedicalBranch> findMedicalBranchByProfessional(@Param("professionalId") Long professionalId);
+
 
 }
