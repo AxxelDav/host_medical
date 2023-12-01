@@ -21,6 +21,7 @@ import static java.util.Objects.isNull;
 
 
 @Api
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping(WorkingShiftEndpoint.BASE)
 public class WorkShiftController implements WorkingShiftEndpoint {

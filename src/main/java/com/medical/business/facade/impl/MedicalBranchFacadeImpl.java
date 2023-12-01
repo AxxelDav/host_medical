@@ -63,8 +63,8 @@ public class MedicalBranchFacadeImpl implements MedicalBranchFacade {
     }
 
     @Override
-    public List<MedicalBranchResponse> findMedicalBranchBySpecializationAndProfessional(Long specializationId, Long professionalId) throws DataInconsistencyException, IllegalArgumentException {
-        List<MedicalBranch> medicalBranches = medicalBranchService.findMedicalBranchBySpecializationAndProfessional(specializationId, professionalId);
+    public List<MedicalBranchResponse> findMedicalBranchBySpecializationAndProfessional(Long specializationId) throws DataInconsistencyException, IllegalArgumentException {
+        List<MedicalBranch> medicalBranches = medicalBranchService.findMedicalBranchBySpecializationAndProfessional(specializationId);
         return medicalBranchDtoMapper.toDto(medicalBranches);
     }
 }

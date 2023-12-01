@@ -19,6 +19,7 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 @Api
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping(MedicalShiftEndpoint.BASE)
 public class MedicalShiftController implements MedicalShiftEndpoint {

@@ -19,6 +19,6 @@ public interface MedicalBranchService {
 
     MedicalBranch findByLocaleAndNumberAndStreet(String locale, String streetNumber, String street) throws DataInconsistencyException, IllegalArgumentException;
 
-    List<MedicalBranch> findMedicalBranchBySpecializationAndProfessional(Long specializationId, Long professionalId) throws IllegalArgumentException, DataInconsistencyException;
+    List<MedicalBranch> findMedicalBranchBySpecializationAndProfessional(Long specializationId) throws IllegalArgumentException, DataInconsistencyException;
 
 }

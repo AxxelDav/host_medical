@@ -8,7 +8,7 @@ public interface ProfessionalEndpoint {
     String PROFESSIONAL = "professionalId";
     String SPECIALIZATIONID = "specializationId";
     String WORKING_SHIFT_ID = "/{workingShiftId}";
-    String SPECIALIZATION_ID = "/{specializationId}";
+    String SPECIALIZATION_ID = "/specialization/{specializationId}";
     String TIME_CONSULTATION_ID = "timeConsultationId";
     String WORKING_DAY_ID = "/{workingDayId}";
     String WORKING_DAYS = "/workingdays";

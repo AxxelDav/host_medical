@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Api
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping(PatientEndpoint.BASE)
 public class PatientController implements PatientEndpoint {

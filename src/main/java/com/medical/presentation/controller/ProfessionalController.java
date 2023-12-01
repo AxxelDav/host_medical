@@ -8,6 +8,7 @@ import com.medical.domain.dto.request.ProfessionalRequest;
 import com.medical.domain.dto.request.WorkingDayRequest;
 import com.medical.domain.dto.response.ProfessionalResponse;
 import com.medical.presentation.controller.endpoint.ProfessionalEndpoint;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
+@Api
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping(value = ProfessionalEndpoint.BASE)
 public class ProfessionalController implements ProfessionalEndpoint {

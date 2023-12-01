@@ -23,7 +23,7 @@ import java.util.Objects;
 
 import static java.util.Objects.isNull;
 
-
+@Api
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping(SpecializationEndpoint.BASE)

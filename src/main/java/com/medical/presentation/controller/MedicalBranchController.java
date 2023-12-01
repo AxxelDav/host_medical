@@ -19,7 +19,9 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
+
 @Api
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping(MedicalBranchEndpoint.BASE)
 public class MedicalBranchController implements MedicalBranchEndpoint {
@@ -61,16 +63,17 @@ public class MedicalBranchController implements MedicalBranchEndpoint {
 
 
     @ApiOperation(value = "Regresa una Sucursal/Medical_Branch por Localidad, Calle y Altura", notes = "Este metodo permite obtener una sucursal por Localidad, Calle y Altura")
-    @GetMapping(path = MedicalBranchEndpoint.FIND_LOCAL_AND_NUMBER_AND_STREET)
+    @GetMapping(path = MedicalBranchEndpoint.FIND_LOCAL_AND_NUMBER_AND_STREET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MedicalBranchResponse> findByLocaleAndNumberAndStreet(@PathVariable String locale, @PathVariable String streetNumber, @PathVariable String street) throws DataInconsistencyException, IllegalArgumentException {
         MedicalBranchResponse medicalBranch = medicalBranchFacade.findByLocaleAndNumberAndStreet(locale, streetNumber, street);
         return new ResponseEntity<>(medicalBranch, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Regresa una Sucursal/Medical_Branch por Especializacion y Profesional", notes = "Este metodo permite obtener una sucursal por Especializacion y Profesional")
-    @GetMapping(path = MedicalBranchEndpoint.FIND_MEDICAL_BRANCH_BY_SPECIALIZATION_AND_PROFESSIONAL)
-    public ResponseEntity<List<MedicalBranchResponse>> findMedicalBranchBySpecializationAndProfessional(@PathVariable Long specializationId, @PathVariable Long professionalId) throws Exception {
-        List<MedicalBranchResponse> medicalBranches = medicalBranchFacade.findMedicalBranchBySpecializationAndProfessional(specializationId, professionalId);
+
+    @ApiOperation(value = "Regresa una Sucursal/Medical_Branch por Especializacion", notes = "Este metodo permite obtener una sucursal por Especializacion")
+    @GetMapping(path = MedicalBranchEndpoint.FIND_MEDICAL_BRANCH_BY_SPECIALIZATION_AND_PROFESSIONAL, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MedicalBranchResponse>> findMedicalBranchBySpecialization(@PathVariable("specializationId") Long specializationId) throws Exception {
+        List<MedicalBranchResponse> medicalBranches = medicalBranchFacade.findMedicalBranchBySpecializationAndProfessional(specializationId);
         ResponseEntity<List<MedicalBranchResponse>> response;
         if (isNull(medicalBranches) || medicalBranches.isEmpty()) {
             response = new ResponseEntity<>(HttpStatus.NO_CONTENT);

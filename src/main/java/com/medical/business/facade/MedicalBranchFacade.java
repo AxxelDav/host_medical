@@ -20,5 +20,5 @@ public interface MedicalBranchFacade {
 
     MedicalBranchResponse findByLocaleAndNumberAndStreet(String locale, String streetNumber, String street) throws DataInconsistencyException, IllegalArgumentException;
 
-    List<MedicalBranchResponse> findMedicalBranchBySpecializationAndProfessional(Long specializationId, Long professionalId) throws DataInconsistencyException, IllegalArgumentException;
+    List<MedicalBranchResponse> findMedicalBranchBySpecializationAndProfessional(Long specializationId) throws DataInconsistencyException, IllegalArgumentException;
 }
